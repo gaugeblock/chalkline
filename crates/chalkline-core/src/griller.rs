@@ -19,7 +19,7 @@ impl Griller {
     }
 
     /// Identifies architectural ambiguities and missing decisions in a feature prompt or spec.
-    pub async fn identify_decision_holes(
+    pub fn identify_decision_holes(
         &self,
         prompt: &str,
         existing_doc: Option<&SpecDoc>,

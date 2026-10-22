@@ -81,11 +81,11 @@ tracing = "0.1"
     assert!(holes[0].is_resolved());
 }
 
-#[tokio::test]
-async fn test_griller_ambiguity_detection() {
+#[test]
+fn test_griller_ambiguity_detection() {
     let griller = Griller::new();
     let prompt = "Build a fast user service";
-    let holes = griller.identify_decision_holes(prompt, None).await.unwrap();
+    let holes = griller.identify_decision_holes(prompt, None).unwrap();
 
     assert!(!holes.is_empty());
     assert!(holes.iter().any(|h| h.category == "persistence_strategy"));
