@@ -1,0 +1,13 @@
+[package]
+name = "chalkline-cli"
+version = "0.0.1-alpha.1"
+edition = "2024"
+authors = ["Colin Wolff"]
+description = "Command-line interface and MCP server for chalkline:Interactive specification planner, ambiguity resolver, and topological task DAG compiler."
+license = "Apache-2.0"
+repository = "https://github.com/gaugeblock/chalkline"
+readme = "../../README.md"
+
+[[bin]]
+name = "chalkline"
+path = "src/main.rs"
