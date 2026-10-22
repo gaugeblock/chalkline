@@ -35,4 +35,3 @@ pub fn handle_sync(root_dir: &Path, args: SyncArgs, json: bool) -> Result<()> {
 
     Ok(())
 }
-

@@ -31,4 +31,3 @@ pub fn handle_recon(root_dir: &Path, args: ReconArgs, json: bool) -> Result<()> 
 
     Ok(())
 }
-
