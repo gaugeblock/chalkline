@@ -1,13 +1,31 @@
 [package]
 name = "chalkline-cli"
-version = "0.0.1-alpha.1"
-edition = "2024"
-authors = ["Colin Wolff"]
-description = "Command-line interface and MCP server for chalkline:Interactive specification planner, ambiguity resolver, and topological task DAG compiler."
-license = "Apache-2.0"
-repository = "https://github.com/gaugeblock/chalkline"
-readme = "../../README.md"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Command-line interface and entrypoint for chalkline"
 
 [[bin]]
 name = "chalkline"
 path = "src/main.rs"
+
+[lints]
+workspace = true
+
+[dependencies]
+chalkline-core = { path = "../chalkline-core", version = "0.0.1-alpha.1" }
+chalkline-mcp = { path = "../chalkline-mcp", version = "0.0.1-alpha.1" }
+clap = { version = "4.5", features = ["derive"] }
+inquire = "0.7"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+uuid = { version = "1.10", features = ["v4"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+anyhow = "1.0"
+tokio = { version = "1.43", features = ["full"] }
+
+[dev-dependencies]
+tempfile = "3.10"

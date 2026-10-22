@@ -1,9 +1,27 @@
 [package]
 name = "chalkline-core"
-version = "0.0.1-alpha.1"
-edition = "2024"
-authors = ["Colin Wolff"]
-description = "Core library and traits for chalkline:Interactive specification planner, ambiguity resolver, and topological task DAG compiler."
-license = "Apache-2.0"
-repository = "https://github.com/gaugeblock/chalkline"
-readme = "../../README.md"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Core library, spec parser, recon engine, ambiguity griller, and DAG compiler for chalkline"
+
+[lints]
+workspace = true
+
+[dependencies]
+storypole-core = "0.1.0-beta.1"
+sawhorse-core = "0.1.0-beta.1"
+miter-engine = "0.1.0-alpha.2"
+pulldown-cmark = "0.13"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+uuid = { version = "1.10", features = ["v4", "serde"] }
+thiserror = "2.0"
+tokio = { version = "1.43", features = ["sync", "rt", "macros"] }
+toml = "0.8"
+tracing = "0.1"
+
+[dev-dependencies]
+tempfile = "3.10"

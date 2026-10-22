@@ -1,0 +1,22 @@
+[package]
+name = "chalkline-mcp"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Model Context Protocol (MCP) stdio server for chalkline"
+
+[lints]
+workspace = true
+
+[dependencies]
+chalkline-core = { path = "../chalkline-core", version = "0.0.1-alpha.1" }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+uuid = { version = "1.10", features = ["v4"] }
+tracing = "0.1"
+
+[dev-dependencies]
+tempfile = "3.10"
+
