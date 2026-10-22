@@ -199,6 +199,7 @@ dependencies = [
  "inquire",
  "serde",
  "serde_json",
+ "storypole-core",
  "tempfile",
  "tokio",
  "tracing",
