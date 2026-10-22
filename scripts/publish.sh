@@ -9,6 +9,7 @@ cd "${REPO_ROOT}"
 UA="gaugeblock-publisher/1.0"
 CRATES=(
   "chalkline-core"
+  "chalkline-mcp"
   "chalkline-cli"
   "chalkline"
 )
@@ -40,11 +41,11 @@ for idx in "${!CRATES[@]}"; do
   fi
 
   echo "🚀 Publishing ${crate} v${VERSION}..."
-  cargo publish -p "${crate}" "$@"
+  cargo publish -p "${crate}" --allow-dirty "$@"
 
   if ! $is_dry_run && [[ $step -lt ${#CRATES[@]} ]]; then
-    echo "⏳ Waiting 20s for crates.io index propagation before next crate..."
-    sleep 20
+    echo "⏳ Waiting 25s for crates.io index propagation before next crate..."
+    sleep 25
   fi
 done
 
