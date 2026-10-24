@@ -9,6 +9,7 @@
 
 pub mod contracts_gen;
 pub mod dag_compiler;
+pub mod docs;
 pub mod error;
 pub mod griller;
 pub mod model;
@@ -17,6 +18,10 @@ pub mod spec_parser;
 
 pub use contracts_gen::ContractsGenerator;
 pub use dag_compiler::{CompilationReceipt, DagCompiler};
+pub use docs::{
+    DocAuditItem, DocAuditReport, DocEntryConfig, DocMigrationPlan, DocStatus, DocType, DocsConfig,
+    DocsPoliciesConfig, DocumentEntries, MarkdownSection, render_template, verify_docs_drift,
+};
 pub use error::{ChalklineError, Result};
 pub use griller::Griller;
 pub use model::{

@@ -5,6 +5,8 @@
 use clap::{Args, Parser, Subcommand};
 use std::path::PathBuf;
 
+use crate::args_docs::DocsArgs;
+
 /// CLI arguments for `chalkline`.
 #[derive(Debug, Parser)]
 #[command(
@@ -40,6 +42,9 @@ pub enum Commands {
 
     /// Run codebase reconnaissance with miter-engine to inspect detected conventions.
     Recon(ReconArgs),
+
+    /// Manage and audit the canonical 9-document repository architecture.
+    Docs(DocsArgs),
 
     /// Launch the stdio JSON-RPC 2.0 Model Context Protocol (MCP) server.
     Mcp,

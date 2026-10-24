@@ -3,12 +3,15 @@
 #![forbid(unsafe_code)]
 
 mod args;
+mod args_docs;
 mod handlers;
+mod handlers_docs;
 
 use anyhow::Result;
 use args::{Cli, Commands};
 use clap::Parser;
 use handlers::*;
+use handlers_docs::*;
 use std::env;
 
 fn main() -> Result<()> {
@@ -33,6 +36,7 @@ fn main() -> Result<()> {
         Commands::CompileDag(args) => handle_compile(&root_dir, args, cli.json)?,
         Commands::Sync(args) => handle_sync(&root_dir, args, cli.json)?,
         Commands::Recon(args) => handle_recon(&root_dir, args, cli.json)?,
+        Commands::Docs(args) => handle_docs(&root_dir, args, cli.json)?,
         Commands::Mcp => {
             chalkline_mcp::run_stdio_server(&root_dir)
                 .map_err(|e| anyhow::anyhow!("MCP server error: {e}"))?;
