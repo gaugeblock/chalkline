@@ -11,9 +11,9 @@ description = "Core library, spec parser, recon engine, ambiguity griller, and D
 workspace = true
 
 [dependencies]
-storypole-core = "0.1.0-beta.1"
-sawhorse-core = "0.1.0-beta.1"
-miter-engine = "0.1.0-alpha.2"
+storypole-core = "0.1.0-beta.2"
+sawhorse-core = "0.1.0-beta.2"
+miter-engine = "0.1.0-alpha.3"
 pulldown-cmark = "0.13"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"

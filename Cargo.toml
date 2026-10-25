@@ -6,7 +6,7 @@ members = [
 ]
 
 [workspace.package]
-version = "0.1.0-beta.1"
+version = "0.1.0-beta.2"
 edition = "2024"
 authors = ["Colin Wolff <1562545+colinwolff@users.noreply.github.com>"]
 license = "Apache-2.0"
@@ -35,7 +35,7 @@ readme = "README.md"
 description = "Interactive specification planner, ambiguity resolver, and topological task DAG compiler."
 
 [dependencies]
-chalkline-core = { path = "crates/chalkline-core", version = "0.1.0-beta.1" }
+chalkline-core = { path = "crates/chalkline-core", version = "0.1.0-beta.2" }
 
 [lints]
 workspace = true
