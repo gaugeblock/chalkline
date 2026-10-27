@@ -159,14 +159,14 @@ dependencies = [
 
 [[package]]
 name = "chalkline"
-version = "0.1.0-beta.2"
+version = "0.1.0-beta.3"
 dependencies = [
  "chalkline-core",
 ]
 
 [[package]]
 name = "chalkline-cli"
-version = "0.1.0-beta.2"
+version = "0.1.0-beta.3"
 dependencies = [
  "anyhow",
  "chalkline-core",
@@ -184,7 +184,7 @@ dependencies = [
 
 [[package]]
 name = "chalkline-core"
-version = "0.1.0-beta.2"
+version = "0.1.0-beta.3"
 dependencies = [
  "miter-engine",
  "pulldown-cmark",
@@ -202,7 +202,7 @@ dependencies = [
 
 [[package]]
 name = "chalkline-mcp"
-version = "0.1.0-beta.2"
+version = "0.1.0-beta.3"
 dependencies = [
  "chalkline-core",
  "serde",

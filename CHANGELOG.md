@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.1.0-beta.3] - YYYY-MM-DD
+
+### Added
+- Initialize `reasoning_effort` in `chalkline`'s `build_planner_request` to support planner request construction. (2181c1b)
+- Initialize the local backlog store with `CH` prefix for scoped task tracking. (78cf78f)
+
+### Fixed
+- No fixes in this release.
+
+### Changed
+- Migrate scoped tasks and design plans into the updated `chalkline` backlog/design structure. (c6f55e3)
+
+### Maintenance
+- Standardize the `chalkline` README and establish the 9-document architecture. (5cfbfe6)
+- Update `chalkline` release history with alpha and beta milestones. (3535f6d)
+
 ### Documentation
 - Standardize README to 9-section template and establish AST-grounded 9-document architecture
 
