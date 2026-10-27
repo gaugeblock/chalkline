@@ -1,9 +1,9 @@
 //! Brownfield documentation section disentangler and migration planner.
 
+use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::fs;
 use std::path::{Path, PathBuf};
-use serde::{Deserialize, Serialize};
 
 use crate::docs::config::{DocType, DocsConfig};
 use crate::error::Result;
@@ -73,7 +73,12 @@ impl DocMigrationPlan {
                 if !content.is_empty() {
                     content.push_str("\n\n");
                 }
-                content.push_str(&format!("{} {}\n\n{}", hashes, sec.heading, sec.body.trim()));
+                content.push_str(&format!(
+                    "{} {}\n\n{}",
+                    hashes,
+                    sec.heading,
+                    sec.body.trim()
+                ));
             }
 
             if let Some(parent) = target_path.parent() {
@@ -128,21 +133,40 @@ fn parse_markdown_sections(content: &str) -> Vec<MarkdownSection> {
 fn classify_section(section: &MarkdownSection) -> DocType {
     let text = format!("{} {}", section.heading, section.body).to_lowercase();
 
-    if text.contains("autonomous agent") || text.contains("file limit") || text.contains("engineering laws") {
+    if text.contains("autonomous agent")
+        || text.contains("file limit")
+        || text.contains("engineering laws")
+    {
         DocType::Agents
-    } else if text.contains("keep a changelog") || text.contains("[unreleased]") || text.contains("release notes") {
+    } else if text.contains("keep a changelog")
+        || text.contains("[unreleased]")
+        || text.contains("release notes")
+    {
         DocType::Changelog
-    } else if text.contains("prerequisite") || text.contains("contributing") || text.contains("pull request") {
+    } else if text.contains("prerequisite")
+        || text.contains("contributing")
+        || text.contains("pull request")
+    {
         DocType::Contributing
-    } else if text.contains("subsystem") || text.contains("crate topology") || text.contains("architecture") {
+    } else if text.contains("subsystem")
+        || text.contains("crate topology")
+        || text.contains("architecture")
+    {
         DocType::Architecture
-    } else if text.contains("decision record") || text.contains("trade-off") || text.contains("adr") {
+    } else if text.contains("decision record") || text.contains("trade-off") || text.contains("adr")
+    {
         DocType::Design
-    } else if text.contains("wire schema") || text.contains("invariants") || text.contains("specification") {
+    } else if text.contains("wire schema")
+        || text.contains("invariants")
+        || text.contains("specification")
+    {
         DocType::Spec
     } else if text.contains("milestone") || text.contains("horizon") || text.contains("roadmap") {
         DocType::Roadmap
-    } else if text.contains("persona") || text.contains("jobs to be done") || text.contains("product vision") {
+    } else if text.contains("persona")
+        || text.contains("jobs to be done")
+        || text.contains("product vision")
+    {
         DocType::Product
     } else {
         DocType::Readme

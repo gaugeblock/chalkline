@@ -109,6 +109,7 @@ impl Griller {
             grammar_format: None,
             max_tokens: 512,
             temperature: 0.2,
+            reasoning_effort: None,
         }
     }
 }

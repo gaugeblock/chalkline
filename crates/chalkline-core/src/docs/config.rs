@@ -1,8 +1,8 @@
 //! Configuration for the 9-Document repository architecture (`.gaugeblock/docs.toml`).
 
+use serde::{Deserialize, Serialize};
 use std::fs;
 use std::path::{Path, PathBuf};
-use serde::{Deserialize, Serialize};
 
 use crate::error::{ChalklineError, Result};
 
@@ -222,8 +222,9 @@ impl DocsConfig {
         let dir = root.join(".gaugeblock");
         fs::create_dir_all(&dir)?;
         let path = dir.join("docs.toml");
-        let content = toml::to_string_pretty(self)
-            .map_err(|e| ChalklineError::Validation(format!("Failed to serialize docs.toml: {e}")))?;
+        let content = toml::to_string_pretty(self).map_err(|e| {
+            ChalklineError::Validation(format!("Failed to serialize docs.toml: {e}"))
+        })?;
         fs::write(&path, content)?;
         Ok(path)
     }

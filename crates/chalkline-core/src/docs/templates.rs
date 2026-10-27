@@ -21,7 +21,8 @@ pub fn render_template(doc_type: DocType, inv: &WorkspaceInventory) -> String {
 
 fn render_readme(inv: &WorkspaceInventory) -> String {
     let title = inv.workspace_name.as_deref().unwrap_or("Project");
-    let mut out = format!("# {title}\n\n> Deterministic, high-reliability systems engineering.\n\n");
+    let mut out =
+        format!("# {title}\n\n> Deterministic, high-reliability systems engineering.\n\n");
     out.push_str("## Features\n\n- Modular architecture\n- Formal AST grounding\n- Tiered verification gates\n\n");
     out.push_str("## Quickstart\n\n```sh\ncargo install\n```\n");
     out
@@ -56,21 +57,37 @@ fn render_architecture(inv: &WorkspaceInventory) -> String {
         out.push_str("- Standalone root crate\n");
     } else {
         for cr in &inv.crates {
-            let desc = cr.description.as_deref().unwrap_or("Workspace member crate");
-            out.push_str(&format!("### `{}`\n- Path: `{}`\n- Version: `{}`\n- Description: {}\n\n", cr.name, cr.relative_path.display(), cr.version, desc));
+            let desc = cr
+                .description
+                .as_deref()
+                .unwrap_or("Workspace member crate");
+            out.push_str(&format!(
+                "### `{}`\n- Path: `{}`\n- Version: `{}`\n- Description: {}\n\n",
+                cr.name,
+                cr.relative_path.display(),
+                cr.version,
+                desc
+            ));
         }
     }
     out
 }
 
 fn render_spec(inv: &WorkspaceInventory) -> String {
-    let mut out = String::from("# Behavioral Specifications & Invariants\n\n## Formal Type Contracts\n\n");
+    let mut out =
+        String::from("# Behavioral Specifications & Invariants\n\n## Formal Type Contracts\n\n");
     if inv.public_types.is_empty() {
         out.push_str("*(No public types discovered)*\n");
     } else {
         for t in inv.public_types.iter().take(20) {
-            let doc = t.doc_summary.as_deref().unwrap_or("Public interface entity");
-            out.push_str(&format!("- **`{}::{}`** (`{}`): {}\n", t.module_path, t.type_name, t.kind, doc));
+            let doc = t
+                .doc_summary
+                .as_deref()
+                .unwrap_or("Public interface entity");
+            out.push_str(&format!(
+                "- **`{}::{}`** (`{}`): {}\n",
+                t.module_path, t.type_name, t.kind, doc
+            ));
         }
     }
     out
@@ -91,7 +108,9 @@ fn render_roadmap(inv: &WorkspaceInventory) -> String {
 }
 
 fn render_changelog(inv: &WorkspaceInventory) -> String {
-    let mut out = String::from("# Changelog\n\nAll notable changes to this project will be documented in this file.\n\n## [Unreleased]\n\n### Added\n");
+    let mut out = String::from(
+        "# Changelog\n\nAll notable changes to this project will be documented in this file.\n\n## [Unreleased]\n\n### Added\n",
+    );
     if let Some(git) = &inv.git {
         for commit in git.unreleased_commits.iter().take(10) {
             out.push_str(&format!("- {commit}\n"));

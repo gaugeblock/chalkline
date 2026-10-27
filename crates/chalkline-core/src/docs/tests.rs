@@ -34,21 +34,22 @@ fn test_render_all_templates() {
 }
 
 #[test]
-fn test_docs_config_save_load() {
-    let tmp = tempfile::tempdir().unwrap();
+fn test_docs_config_save_load() -> std::result::Result<(), Box<dyn std::error::Error>> {
+    let tmp = tempfile::tempdir()?;
     let root = tmp.path();
 
     let config = DocsConfig::default();
-    config.save(root).unwrap();
+    config.save(root)?;
 
-    let loaded = DocsConfig::load_or_default(root).unwrap();
+    let loaded = DocsConfig::load_or_default(root)?;
     assert_eq!(loaded.docs.readme.path, "README.md");
     assert!(loaded.policies.enforce_crate_topology);
+    Ok(())
 }
 
 #[test]
-fn test_drift_verifier_missing_files() {
-    let tmp = tempfile::tempdir().unwrap();
+fn test_drift_verifier_missing_files() -> std::result::Result<(), Box<dyn std::error::Error>> {
+    let tmp = tempfile::tempdir()?;
     let root = tmp.path();
     let inv = mock_inventory();
     let config = DocsConfig::default();
@@ -56,6 +57,7 @@ fn test_drift_verifier_missing_files() {
     let report = verify_docs_drift(root, &config, &inv);
     assert!(!report.is_clean());
     assert!(report.missing_count() > 0);
+    Ok(())
 }
 
 #[test]
@@ -73,9 +75,13 @@ Please install Rust 1.90 and pnpm.
 "#;
 
     let config = DocsConfig::default();
-    let plan = DocMigrationPlan::plan_from_str(PathBuf::from("README.md").as_path(), content, &config);
+    let plan =
+        DocMigrationPlan::plan_from_str(PathBuf::from("README.md").as_path(), content, &config);
 
     assert!(plan.classified_sections.contains_key(&DocType::Agents));
-    assert!(plan.classified_sections.contains_key(&DocType::Contributing));
+    assert!(
+        plan.classified_sections
+            .contains_key(&DocType::Contributing)
+    );
     assert!(plan.classified_sections.contains_key(&DocType::Readme));
 }

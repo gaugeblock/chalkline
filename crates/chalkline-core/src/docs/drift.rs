@@ -1,8 +1,8 @@
 //! AST-grounded documentation drift verification engine.
 
+use serde::{Deserialize, Serialize};
 use std::fs;
 use std::path::{Path, PathBuf};
-use serde::{Deserialize, Serialize};
 
 use miter_engine::WorkspaceInventory;
 
@@ -48,12 +48,18 @@ impl DocAuditReport {
 
     /// Number of missing required documents.
     pub fn missing_count(&self) -> usize {
-        self.items.iter().filter(|i| i.status == DocStatus::Missing).count()
+        self.items
+            .iter()
+            .filter(|i| i.status == DocStatus::Missing)
+            .count()
     }
 
     /// Number of drifted documents.
     pub fn drifted_count(&self) -> usize {
-        self.items.iter().filter(|i| i.status == DocStatus::Drifted).count()
+        self.items
+            .iter()
+            .filter(|i| i.status == DocStatus::Drifted)
+            .count()
     }
 }
 
@@ -85,7 +91,10 @@ pub fn verify_docs_drift(
         let mut violations = Vec::new();
 
         if config.policies.enforce_file_loc_limits && content.lines().count() > 500 {
-            violations.push(format!("File exceeds 500 LOC ({})", content.lines().count()));
+            violations.push(format!(
+                "File exceeds 500 LOC ({})",
+                content.lines().count()
+            ));
         }
 
         audit_document_semantics(doc_type, &content, config, inventory, &mut violations);
