@@ -10,6 +10,7 @@
 pub mod config;
 pub mod drift;
 pub mod migration;
+pub mod rules;
 pub mod templates;
 pub mod workspace;
 

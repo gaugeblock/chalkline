@@ -107,3 +107,47 @@ fn test_discover_workspace_repos() -> std::result::Result<(), Box<dyn std::error
     assert_eq!(repos[2].name, "sub-repo-b");
     Ok(())
 }
+
+#[test]
+fn test_spec_contracts_boundary_types() {
+    let mut inv = mock_inventory();
+    inv.public_types.push(miter_engine::PublicTypeInventory {
+        module_path: "chalkline_core::error".into(),
+        type_name: "ChalklineError".into(),
+        kind: "enum".into(),
+        doc_summary: Some("Error enum".into()),
+    });
+    inv.public_types.push(miter_engine::PublicTypeInventory {
+        module_path: "chalkline_core::internal".into(),
+        type_name: "TrivialHelper".into(),
+        kind: "struct".into(),
+        doc_summary: None,
+    });
+
+    let mut violations = Vec::new();
+    rules::audit_spec_contracts("# Behavioral Spec\n\nNo types mentioned.", &inv, &mut violations);
+    assert_eq!(violations.len(), 1);
+    assert!(violations[0].contains("ChalklineError"));
+
+    let mut clean_violations = Vec::new();
+    rules::audit_spec_contracts("# Behavioral Spec\n\nMentions ChalklineError explicitly.", &inv, &mut clean_violations);
+    assert!(clean_violations.is_empty());
+}
+
+#[test]
+fn test_agents_directives_and_links() -> std::result::Result<(), Box<dyn std::error::Error>> {
+    let mut violations = Vec::new();
+    rules::audit_agents_directives("# Bad Agents\nNo rules here.", &mut violations);
+    assert!(violations.len() >= 3);
+
+    let tmp = tempfile::tempdir()?;
+    let root = tmp.path();
+    std::fs::write(root.join("real.md"), "# Real")?;
+
+    let content = "See [real file](./real.md) and [fake file](./fake.md).";
+    let mut link_violations = Vec::new();
+    rules::audit_markdown_links(content, root, &mut link_violations);
+    assert_eq!(link_violations.len(), 1);
+    assert!(link_violations[0].contains("fake.md"));
+    Ok(())
+}

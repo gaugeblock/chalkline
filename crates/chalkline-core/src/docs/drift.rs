@@ -7,6 +7,7 @@ use std::path::{Path, PathBuf};
 use miter_engine::WorkspaceInventory;
 
 use crate::docs::config::{DocType, DocsConfig};
+use crate::docs::rules;
 
 /// Status of a documentation file.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
@@ -97,7 +98,7 @@ pub fn verify_docs_drift(
             ));
         }
 
-        audit_document_semantics(doc_type, &content, config, inventory, &mut violations);
+        audit_document_semantics(doc_type, &content, &file_path, config, inventory, &mut violations);
 
         let status = if violations.is_empty() {
             DocStatus::Present
@@ -119,29 +120,32 @@ pub fn verify_docs_drift(
 fn audit_document_semantics(
     doc_type: DocType,
     content: &str,
+    file_path: &Path,
     config: &DocsConfig,
     inv: &WorkspaceInventory,
     violations: &mut Vec<String>,
 ) {
+    let doc_dir = file_path.parent().unwrap_or(Path::new("."));
+    rules::audit_markdown_links(content, doc_dir, violations);
+
     match doc_type {
         DocType::Architecture if config.policies.enforce_crate_topology => {
-            for cr in &inv.crates {
-                if !content.contains(&cr.name) {
-                    violations.push(format!("Missing mention of member crate '{}'", cr.name));
-                }
-            }
+            rules::audit_architecture(content, inv, violations);
+        }
+        DocType::Spec if config.policies.enforce_public_type_contracts => {
+            rules::audit_spec_contracts(content, inv, violations);
+        }
+        DocType::Readme if config.policies.enforce_readme_cli_flags => {
+            rules::audit_readme_cli(content, inv, violations);
+        }
+        DocType::Agents => {
+            rules::audit_agents_directives(content, violations);
         }
         DocType::Changelog if config.policies.enforce_changelog_unreleased => {
-            if !content.contains("## [Unreleased]") && !content.contains("## Unreleased") {
-                violations.push("Missing '## [Unreleased]' section in CHANGELOG.md".into());
-            }
+            rules::audit_changelog(content, violations);
         }
         DocType::Contributing if config.policies.enforce_contributing_toolchains => {
-            if let Some(rust) = &inv.toolchain.rust_version
-                && !content.contains(rust)
-            {
-                violations.push(format!("Missing configured Rust channel/version '{rust}'"));
-            }
+            rules::audit_contributing(content, inv, violations);
         }
         _ => {}
     }
