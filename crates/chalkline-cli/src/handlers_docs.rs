@@ -5,7 +5,7 @@ use std::path::Path;
 use anyhow::{Result, anyhow};
 use chalkline_core::docs::{
     DocMigrationPlan, DocStatus, DocType, DocsConfig, inspect_workspace, render_template,
-    verify_docs_drift,
+    verify_docs_drift, verify_workspace_docs_drift,
 };
 
 use crate::args_docs::{DocsArgs, DocsCommands};
@@ -15,6 +15,57 @@ pub fn handle_docs(root_dir: &Path, args: DocsArgs, json: bool) -> Result<()> {
     match args.command {
         DocsCommands::Check(check_args) => {
             let target = check_args.path.as_deref().unwrap_or(root_dir);
+
+            if check_args.workspace {
+                let ws_report = verify_workspace_docs_drift(target)?;
+                if json {
+                    println!("{}", serde_json::to_string_pretty(&ws_report)?);
+                } else {
+                    println!("\n=== Gaugeblock 9-Document Architecture Audit (Workspace) ===");
+                    println!("Workspace Root: {}\n", target.display());
+                    println!("{:<14} {:<6} {:<7} {:<6} {:<6} {:<6} {:<8} {:<9} {:<11} {:<8} {:<10}",
+                        "Repo", "README", "CONTRIB", "PROD", "ARCH", "SPEC", "DESIGN", "ROADMAP", "CHANGELOG", "AGENTS", "Status"
+                    );
+                    println!("{}", "-".repeat(95));
+                    for (repo_name, report) in &ws_report.targets {
+                        let mut status_map = std::collections::HashMap::new();
+                        for item in &report.items {
+                            status_map.insert(item.doc_type, item.status);
+                        }
+                        let badge = |dt: DocType| match status_map.get(&dt) {
+                            Some(DocStatus::Present) => "[OK]  ",
+                            Some(DocStatus::Drifted) => "[DIFF]",
+                            Some(DocStatus::Missing) => "[MISS]",
+                            None => " -    ",
+                        };
+                        let overall = if report.is_clean() { "CLEAN" } else { "VIOLATIONS" };
+                        println!("{:<14} {:<6} {:<7} {:<6} {:<6} {:<6} {:<8} {:<9} {:<11} {:<8} {:<10}",
+                            repo_name,
+                            badge(DocType::Readme),
+                            badge(DocType::Contributing),
+                            badge(DocType::Product),
+                            badge(DocType::Architecture),
+                            badge(DocType::Spec),
+                            badge(DocType::Design),
+                            badge(DocType::Roadmap),
+                            badge(DocType::Changelog),
+                            badge(DocType::Agents),
+                            overall
+                        );
+                    }
+                    println!("\nSummary: {} targets audited, {} present, {} missing, {} drifted\n",
+                        ws_report.targets.len(),
+                        ws_report.total_present(),
+                        ws_report.total_missing(),
+                        ws_report.total_drifted(),
+                    );
+                }
+                if !ws_report.is_clean() {
+                    return Err(anyhow!("Workspace documentation audit failed with violations"));
+                }
+                return Ok(());
+            }
+
             let config = DocsConfig::load_or_default(target)?;
             let inv = inspect_workspace(target)
                 .map_err(|e| anyhow!("Failed to inspect workspace: {e}"))?;

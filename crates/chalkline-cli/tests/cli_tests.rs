@@ -80,3 +80,75 @@ fn test_cli_grill_and_compile_cycle() {
 
     assert!(sync_output.status.success());
 }
+
+#[test]
+fn test_cli_docs_check_workspace() {
+    let dir = tempdir().unwrap();
+    let root = dir.path();
+    std::fs::write(
+        root.join("Cargo.toml"),
+        "[workspace]\nmembers = [\"repo-alpha\"]\n",
+    )
+    .unwrap();
+
+    // Scaffold root docs
+    let scaffold_root = Command::new(env!("CARGO_BIN_EXE_chalkline"))
+        .arg("--dir")
+        .arg(root)
+        .arg("docs")
+        .arg("scaffold")
+        .output()
+        .unwrap();
+    if !scaffold_root.status.success() {
+        eprintln!(
+            "scaffold stderr: {}",
+            String::from_utf8_lossy(&scaffold_root.stderr)
+        );
+    }
+    assert!(scaffold_root.status.success());
+
+    // Scaffold a member repo
+    let member = root.join("repo-alpha");
+    std::fs::create_dir_all(&member).unwrap();
+    std::fs::write(member.join("Cargo.toml"), "[package]\nname = \"repo-alpha\"\n").unwrap();
+    let scaffold_member = Command::new(env!("CARGO_BIN_EXE_chalkline"))
+        .arg("--dir")
+        .arg(&member)
+        .arg("docs")
+        .arg("scaffold")
+        .output()
+        .unwrap();
+    assert!(scaffold_member.status.success());
+
+    // Append member crate mention to root ARCHITECTURE.md so it is not drifted
+    let arch_path = root.join("ARCHITECTURE.md");
+    let mut arch = std::fs::read_to_string(&arch_path).unwrap();
+    arch.push_str("\n### `repo-alpha`\nWorkspace member.\n");
+    std::fs::write(&arch_path, arch).unwrap();
+
+    // Run docs check --workspace in json mode
+    let check_output = Command::new(env!("CARGO_BIN_EXE_chalkline"))
+        .arg("--dir")
+        .arg(root)
+        .arg("--json")
+        .arg("docs")
+        .arg("check")
+        .arg("--workspace")
+        .output()
+        .unwrap();
+
+    if !check_output.status.success() {
+        eprintln!(
+            "check stdout: {}",
+            String::from_utf8_lossy(&check_output.stdout)
+        );
+        eprintln!(
+            "check stderr: {}",
+            String::from_utf8_lossy(&check_output.stderr)
+        );
+    }
+    assert!(check_output.status.success());
+    let stdout = String::from_utf8(check_output.stdout).unwrap();
+    assert!(stdout.contains("repo-alpha"));
+    assert!(stdout.contains("workspace"));
+}

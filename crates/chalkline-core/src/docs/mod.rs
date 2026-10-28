@@ -11,6 +11,7 @@ pub mod config;
 pub mod drift;
 pub mod migration;
 pub mod templates;
+pub mod workspace;
 
 #[cfg(test)]
 mod tests;
@@ -20,3 +21,6 @@ pub use drift::{DocAuditItem, DocAuditReport, DocStatus, verify_docs_drift};
 pub use migration::{DocMigrationPlan, MarkdownSection};
 pub use miter_engine::inspect_workspace;
 pub use templates::render_template;
+pub use workspace::{
+    DiscoveredRepo, WorkspaceDocsAuditReport, discover_workspace_repos, verify_workspace_docs_drift,
+};

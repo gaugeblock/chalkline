@@ -85,3 +85,25 @@ Please install Rust 1.90 and pnpm.
     );
     assert!(plan.classified_sections.contains_key(&DocType::Readme));
 }
+
+#[test]
+fn test_discover_workspace_repos() -> std::result::Result<(), Box<dyn std::error::Error>> {
+    let tmp = tempfile::tempdir()?;
+    let root = tmp.path();
+
+    std::fs::create_dir_all(root.join("sub-repo-a"))?;
+    std::fs::write(root.join("sub-repo-a").join("Cargo.toml"), "[package]\nname=\"sub-repo-a\"")?;
+    std::fs::write(root.join("sub-repo-a").join("README.md"), "# Sub Repo A")?;
+
+    std::fs::create_dir_all(root.join("sub-repo-b"))?;
+    std::fs::write(root.join("sub-repo-b").join("README.md"), "# Sub Repo B")?;
+    std::fs::create_dir_all(root.join("sub-repo-b").join(".git"))?;
+
+    let repos = discover_workspace_repos(root);
+    assert_eq!(repos.len(), 3); // workspace root + sub-repo-a + sub-repo-b
+    assert_eq!(repos[0].name, "workspace");
+    assert!(repos[0].is_root);
+    assert_eq!(repos[1].name, "sub-repo-a");
+    assert_eq!(repos[2].name, "sub-repo-b");
+    Ok(())
+}

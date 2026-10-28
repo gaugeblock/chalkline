@@ -27,13 +27,16 @@ pub enum DocsCommands {
 pub struct DocsCheckArgs {
     /// Path to target repository (defaults to current directory).
     pub path: Option<PathBuf>,
+    /// Audit all member repositories across the workspace.
+    #[arg(short = 'w', long, alias = "all")]
+    pub workspace: bool,
 }
 
 /// Arguments for `chalkline docs scaffold`.
 #[derive(Debug, Args)]
 pub struct DocsScaffoldArgs {
     /// Only scaffold a specific document type (e.g. `readme`, `agents`, `architecture`).
-    #[arg(short, long)]
+    #[arg(long)]
     pub doc: Option<String>,
     /// Force overwrite of existing files.
     #[arg(long)]
