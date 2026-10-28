@@ -7,6 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [v0.1.0-beta.4] - 2026-05-09
+
+### Added
+- `chalkline-docs`: add docs sync with heading AST targeting and rich templates ([GB-105]).
+- `chalkline-core`: implement boundary type and AST drift policies ([GB-104]).
+- `chalkline-cli`: add multi-repo `--workspace` audit flag to docs check ([GB-103]).
+
+### Fixed
+- No changes.
+
+### Changed
+- No changes.
+
+### Maintenance
+- `chalkline-docs`: elevate all 9 canonical documents to gold standard ([GB-119]).
+
 ### Added
 - Multi-repository workspace auditing via `chalkline docs check --workspace` / `--all` (GB-103).
 - Semantic AST drift policies: boundary & wire type contract auditing against `SPEC.md`, Clap CLI command/flag checks against `README.md`, mandatory `AGENTS.md` operational laws checks, and link integrity (GB-104).
