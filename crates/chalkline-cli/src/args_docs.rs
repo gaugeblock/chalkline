@@ -16,10 +16,22 @@ pub struct DocsArgs {
 pub enum DocsCommands {
     /// Audit repository documentation against .gaugeblock/docs.toml and code AST.
     Check(DocsCheckArgs),
+    /// Synchronize AST-grounded sections into canonical documents.
+    Sync(DocsSyncArgs),
     /// Scaffold missing repository documentation files using AST-grounded templates.
     Scaffold(DocsScaffoldArgs),
     /// Disentangle a brownfield document into the 9 canonical documents.
     Migrate(DocsMigrateArgs),
+}
+
+/// Arguments for `chalkline docs sync`.
+#[derive(Debug, Args)]
+pub struct DocsSyncArgs {
+    /// Path to target repository (defaults to current directory).
+    pub path: Option<PathBuf>,
+    /// Apply changes directly to disk instead of dry-run preview.
+    #[arg(long)]
+    pub apply: bool,
 }
 
 /// Arguments for `chalkline docs check`.

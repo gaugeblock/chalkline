@@ -5,7 +5,7 @@ use std::path::Path;
 use anyhow::{Result, anyhow};
 use chalkline_core::docs::{
     DocMigrationPlan, DocStatus, DocType, DocsConfig, inspect_workspace, render_template,
-    verify_docs_drift, verify_workspace_docs_drift,
+    sync_repo_docs, verify_docs_drift, verify_workspace_docs_drift,
 };
 
 use crate::args_docs::{DocsArgs, DocsCommands};
@@ -92,6 +92,26 @@ pub fn handle_docs(root_dir: &Path, args: DocsArgs, json: bool) -> Result<()> {
                     report.missing_count(),
                     report.drifted_count(),
                 );
+            }
+        }
+        DocsCommands::Sync(sync_args) => {
+            let target = sync_args.path.as_deref().unwrap_or(root_dir);
+            let inv = inspect_workspace(target)
+                .map_err(|e| anyhow!("Failed to inspect workspace: {e}"))?;
+            let modified = sync_repo_docs(target, &inv, sync_args.apply)?;
+            if json {
+                println!("{}", serde_json::to_string_pretty(&modified)?);
+            } else if sync_args.apply {
+                println!("Synchronized {} documentation files:", modified.len());
+                for p in &modified {
+                    println!("  + {}", p.display());
+                }
+            } else {
+                println!("Preview: {} documentation files require sync:", modified.len());
+                for p in &modified {
+                    println!("  * {}", p.display());
+                }
+                println!("\nRun with --apply to write changes to disk.\n");
             }
         }
         DocsCommands::Scaffold(scaffold_args) => {

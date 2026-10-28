@@ -11,6 +11,7 @@ pub mod config;
 pub mod drift;
 pub mod migration;
 pub mod rules;
+pub mod sync;
 pub mod templates;
 pub mod workspace;
 
@@ -21,6 +22,10 @@ pub use config::{DocEntryConfig, DocType, DocsConfig, DocsPoliciesConfig, Docume
 pub use drift::{DocAuditItem, DocAuditReport, DocStatus, verify_docs_drift};
 pub use migration::{DocMigrationPlan, MarkdownSection};
 pub use miter_engine::inspect_workspace;
+pub use sync::{
+    render_boundary_contracts_section, render_cli_reference_section, render_crates_section,
+    replace_heading_section, sync_repo_docs,
+};
 pub use templates::render_template;
 pub use workspace::{
     DiscoveredRepo, WorkspaceDocsAuditReport, discover_workspace_repos, verify_workspace_docs_drift,

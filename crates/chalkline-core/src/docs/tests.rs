@@ -151,3 +151,14 @@ fn test_agents_directives_and_links() -> std::result::Result<(), Box<dyn std::er
     assert!(link_violations[0].contains("fake.md"));
     Ok(())
 }
+
+#[test]
+fn test_heading_section_replacement() {
+    let original = "# Title\n\nIntro.\n\n## Crate & Package Topology\n\nOld crate listing.\n\n## Next Section\n\nPreserved.\n";
+    let replacement = "- New Crate A\n- New Crate B";
+    let updated = replace_heading_section(original, "crate", replacement).expect("Heading replaced");
+    assert!(updated.contains("- New Crate A"));
+    assert!(updated.contains("## Next Section"));
+    assert!(updated.contains("Preserved."));
+    assert!(!updated.contains("Old crate listing."));
+}
