@@ -122,6 +122,16 @@ pub fn handle_docs(root_dir: &Path, args: DocsArgs, json: bool) -> Result<()> {
                     report.drifted_count(),
                 );
             }
+
+            // A drifted or missing document is a failure, not a note: callers gate on the exit
+            // code, and a green exit with drift in the summary makes the check decorative.
+            if !report.is_clean() {
+                return Err(anyhow!(
+                    "Documentation audit failed: {} missing, {} drifted",
+                    report.missing_count(),
+                    report.drifted_count()
+                ));
+            }
         }
         DocsCommands::Sync(sync_args) => {
             let target = sync_args.path.as_deref().unwrap_or(root_dir);
