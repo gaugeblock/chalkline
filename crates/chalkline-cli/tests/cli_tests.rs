@@ -110,7 +110,11 @@ fn test_cli_docs_check_workspace() {
     // Scaffold a member repo
     let member = root.join("repo-alpha");
     std::fs::create_dir_all(&member).unwrap();
-    std::fs::write(member.join("Cargo.toml"), "[package]\nname = \"repo-alpha\"\n").unwrap();
+    std::fs::write(
+        member.join("Cargo.toml"),
+        "[package]\nname = \"repo-alpha\"\n",
+    )
+    .unwrap();
     let scaffold_member = Command::new(env!("CARGO_BIN_EXE_chalkline"))
         .arg("--dir")
         .arg(&member)

@@ -1,12 +1,12 @@
 //! Handlers for `chalkline docs` commands.
 
-use std::fs;
-use std::path::Path;
 use anyhow::{Result, anyhow};
 use chalkline_core::docs::{
     DocMigrationPlan, DocStatus, DocType, DocsConfig, inspect_workspace, render_template,
     sync_repo_docs, verify_docs_drift, verify_workspace_docs_drift,
 };
+use std::fs;
+use std::path::Path;
 
 use crate::args_docs::{DocsArgs, DocsCommands};
 
@@ -23,8 +23,19 @@ pub fn handle_docs(root_dir: &Path, args: DocsArgs, json: bool) -> Result<()> {
                 } else {
                     println!("\n=== Gaugeblock 9-Document Architecture Audit (Workspace) ===");
                     println!("Workspace Root: {}\n", target.display());
-                    println!("{:<14} {:<6} {:<7} {:<6} {:<6} {:<6} {:<8} {:<9} {:<11} {:<8} {:<10}",
-                        "Repo", "README", "CONTRIB", "PROD", "ARCH", "SPEC", "DESIGN", "ROADMAP", "CHANGELOG", "AGENTS", "Status"
+                    println!(
+                        "{:<14} {:<6} {:<7} {:<6} {:<6} {:<6} {:<8} {:<9} {:<11} {:<8} {:<10}",
+                        "Repo",
+                        "README",
+                        "CONTRIB",
+                        "PROD",
+                        "ARCH",
+                        "SPEC",
+                        "DESIGN",
+                        "ROADMAP",
+                        "CHANGELOG",
+                        "AGENTS",
+                        "Status"
                     );
                     println!("{}", "-".repeat(95));
                     for (repo_name, report) in &ws_report.targets {
@@ -38,8 +49,13 @@ pub fn handle_docs(root_dir: &Path, args: DocsArgs, json: bool) -> Result<()> {
                             Some(DocStatus::Missing) => "[MISS]",
                             None => " -    ",
                         };
-                        let overall = if report.is_clean() { "CLEAN" } else { "VIOLATIONS" };
-                        println!("{:<14} {:<6} {:<7} {:<6} {:<6} {:<6} {:<8} {:<9} {:<11} {:<8} {:<10}",
+                        let overall = if report.is_clean() {
+                            "CLEAN"
+                        } else {
+                            "VIOLATIONS"
+                        };
+                        println!(
+                            "{:<14} {:<6} {:<7} {:<6} {:<6} {:<6} {:<8} {:<9} {:<11} {:<8} {:<10}",
                             repo_name,
                             badge(DocType::Readme),
                             badge(DocType::Contributing),
@@ -53,7 +69,8 @@ pub fn handle_docs(root_dir: &Path, args: DocsArgs, json: bool) -> Result<()> {
                             overall
                         );
                     }
-                    println!("\nSummary: {} targets audited, {} present, {} missing, {} drifted\n",
+                    println!(
+                        "\nSummary: {} targets audited, {} present, {} missing, {} drifted\n",
                         ws_report.targets.len(),
                         ws_report.total_present(),
                         ws_report.total_missing(),
@@ -61,7 +78,9 @@ pub fn handle_docs(root_dir: &Path, args: DocsArgs, json: bool) -> Result<()> {
                     );
                 }
                 if !ws_report.is_clean() {
-                    return Err(anyhow!("Workspace documentation audit failed with violations"));
+                    return Err(anyhow!(
+                        "Workspace documentation audit failed with violations"
+                    ));
                 }
                 return Ok(());
             }
@@ -82,13 +101,23 @@ pub fn handle_docs(root_dir: &Path, args: DocsArgs, json: bool) -> Result<()> {
                         DocStatus::Missing => "[MISSING]",
                         DocStatus::Drifted => "[DRIFT]  ",
                     };
-                    println!("{} {:<16} ({})", badge, format!("{:?}", item.doc_type), item.path.display());
+                    println!(
+                        "{} {:<16} ({})",
+                        badge,
+                        format!("{:?}", item.doc_type),
+                        item.path.display()
+                    );
                     for v in &item.violations {
                         println!("           * {v}");
                     }
                 }
-                println!("\nSummary: {} present, {} missing, {} drifted\n",
-                    report.items.iter().filter(|i| i.status == DocStatus::Present).count(),
+                println!(
+                    "\nSummary: {} present, {} missing, {} drifted\n",
+                    report
+                        .items
+                        .iter()
+                        .filter(|i| i.status == DocStatus::Present)
+                        .count(),
                     report.missing_count(),
                     report.drifted_count(),
                 );
@@ -107,7 +136,10 @@ pub fn handle_docs(root_dir: &Path, args: DocsArgs, json: bool) -> Result<()> {
                     println!("  + {}", p.display());
                 }
             } else {
-                println!("Preview: {} documentation files require sync:", modified.len());
+                println!(
+                    "Preview: {} documentation files require sync:",
+                    modified.len()
+                );
                 for p in &modified {
                     println!("  * {}", p.display());
                 }
@@ -163,7 +195,8 @@ pub fn handle_docs(root_dir: &Path, args: DocsArgs, json: bool) -> Result<()> {
                 .map_err(|e| anyhow!("Failed to generate migration plan: {e}"))?;
 
             if migrate_args.apply {
-                let written = plan.execute(root_dir, &config)
+                let written = plan
+                    .execute(root_dir, &config)
                     .map_err(|e| anyhow!("Failed to execute migration: {e}"))?;
                 if json {
                     println!("{}", serde_json::to_string_pretty(&written)?);
@@ -176,7 +209,10 @@ pub fn handle_docs(root_dir: &Path, args: DocsArgs, json: bool) -> Result<()> {
             } else if json {
                 println!("{}", serde_json::to_string_pretty(&plan)?);
             } else {
-                println!("\n=== Proposed Migration Plan for {} ===", source_path.display());
+                println!(
+                    "\n=== Proposed Migration Plan for {} ===",
+                    source_path.display()
+                );
                 for (doc_type, sections) in &plan.classified_sections {
                     println!("\nTarget: {:?} ({} sections)", doc_type, sections.len());
                     for s in sections {

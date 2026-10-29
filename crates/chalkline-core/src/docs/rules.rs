@@ -1,15 +1,11 @@
 //! Semantic validation and AST drift audit rules for canonical documentation.
 
-use std::path::Path;
 use miter_engine::WorkspaceInventory;
 use pulldown_cmark::{Event, Parser, Tag};
+use std::path::Path;
 
 /// Audits `ARCHITECTURE.md` crate topology against code AST.
-pub fn audit_architecture(
-    content: &str,
-    inv: &WorkspaceInventory,
-    violations: &mut Vec<String>,
-) {
+pub fn audit_architecture(content: &str, inv: &WorkspaceInventory, violations: &mut Vec<String>) {
     for cr in &inv.crates {
         if !content.contains(&cr.name) {
             violations.push(format!("Missing mention of member crate '{}'", cr.name));
@@ -18,11 +14,7 @@ pub fn audit_architecture(
 }
 
 /// Audits `SPEC.md` boundary and contract types (refinement 2: wire models, error enums, CLI args, lib facade).
-pub fn audit_spec_contracts(
-    content: &str,
-    inv: &WorkspaceInventory,
-    violations: &mut Vec<String>,
-) {
+pub fn audit_spec_contracts(content: &str, inv: &WorkspaceInventory, violations: &mut Vec<String>) {
     for t in &inv.public_types {
         if !is_boundary_or_contract_type(t) {
             continue;
@@ -70,11 +62,7 @@ fn is_boundary_or_contract_type(t: &miter_engine::PublicTypeInventory) -> bool {
 }
 
 /// Audits `README.md` subcommands and options against Clap CLI commands.
-pub fn audit_readme_cli(
-    content: &str,
-    inv: &WorkspaceInventory,
-    violations: &mut Vec<String>,
-) {
+pub fn audit_readme_cli(content: &str, inv: &WorkspaceInventory, violations: &mut Vec<String>) {
     for cmd in &inv.cli_commands {
         for sub in &cmd.subcommand_path {
             if !content.contains(sub) {
@@ -99,31 +87,27 @@ pub fn audit_readme_cli(
 }
 
 /// Audits `AGENTS.md` for mandatory non-negotiable operational laws.
-pub fn audit_agents_directives(
-    content: &str,
-    violations: &mut Vec<String>,
-) {
+pub fn audit_agents_directives(content: &str, violations: &mut Vec<String>) {
     let lower = content.to_lowercase();
     if !lower.contains("250") && !lower.contains("file limit") {
         violations.push("AGENTS.md missing mandatory rule: Hard 250-Line File Limit".into());
     }
     if !lower.contains("storypole defer") && !lower.contains("scope creep") {
-        violations.push("AGENTS.md missing mandatory rule: Zero Inline Scope Creep / storypole defer".into());
+        violations.push(
+            "AGENTS.md missing mandatory rule: Zero Inline Scope Creep / storypole defer".into(),
+        );
     }
     if !lower.contains("tiered") && !lower.contains("verification") {
         violations.push("AGENTS.md missing mandatory rule: Tiered Verification Matrix".into());
     }
     if !lower.contains("conventional") && !lower.contains("commit") {
-        violations.push("AGENTS.md missing mandatory rule: Conventional Commits specification".into());
+        violations
+            .push("AGENTS.md missing mandatory rule: Conventional Commits specification".into());
     }
 }
 
 /// Audits relative markdown links to ensure target files exist on disk.
-pub fn audit_markdown_links(
-    content: &str,
-    doc_dir: &Path,
-    violations: &mut Vec<String>,
-) {
+pub fn audit_markdown_links(content: &str, doc_dir: &Path, violations: &mut Vec<String>) {
     let parser = Parser::new(content);
     for event in parser {
         if let Event::Start(Tag::Link { dest_url, .. }) = event {
@@ -159,11 +143,7 @@ pub fn audit_changelog(content: &str, violations: &mut Vec<String>) {
 }
 
 /// Audits `CONTRIBUTING.md` for configured toolchains.
-pub fn audit_contributing(
-    content: &str,
-    inv: &WorkspaceInventory,
-    violations: &mut Vec<String>,
-) {
+pub fn audit_contributing(content: &str, inv: &WorkspaceInventory, violations: &mut Vec<String>) {
     if let Some(rust) = &inv.toolchain.rust_version
         && !content.contains(rust)
     {

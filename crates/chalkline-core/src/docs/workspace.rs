@@ -37,7 +37,12 @@ impl WorkspaceDocsAuditReport {
     pub fn total_present(&self) -> usize {
         self.targets
             .iter()
-            .map(|(_, r)| r.items.iter().filter(|i| i.status == DocStatus::Present).count())
+            .map(|(_, r)| {
+                r.items
+                    .iter()
+                    .filter(|i| i.status == DocStatus::Present)
+                    .count()
+            })
             .sum()
     }
 
@@ -119,12 +124,12 @@ pub fn verify_workspace_docs_drift(workspace_root: &Path) -> Result<WorkspaceDoc
 
     for repo in repos {
         let config = DocsConfig::load_or_default(&repo.path)?;
-        let inv = inspect_workspace(&repo.path)
-            .map_err(|e| ChalklineError::Validation(format!("AST inspection failed for {}: {e}", repo.name)))?;
+        let inv = inspect_workspace(&repo.path).map_err(|e| {
+            ChalklineError::Validation(format!("AST inspection failed for {}: {e}", repo.name))
+        })?;
         let report = verify_docs_drift(&repo.path, &config, &inv);
         targets.push((repo.name, report));
     }
 
     Ok(WorkspaceDocsAuditReport { targets })
 }
-

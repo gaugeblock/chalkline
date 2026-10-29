@@ -1,9 +1,9 @@
 //! Native Markdown AST heading-targeted documentation synchronizer via pulldown-cmark.
 
-use std::fs;
-use std::path::{Path, PathBuf};
 use miter_engine::WorkspaceInventory;
 use pulldown_cmark::{Event, HeadingLevel, Parser, Tag, TagEnd};
+use std::fs;
+use std::path::{Path, PathBuf};
 
 use crate::error::Result;
 
@@ -67,10 +67,16 @@ pub fn render_crates_section(inv: &WorkspaceInventory) -> String {
         out.push_str("- Standalone root crate\n");
     } else {
         for cr in &inv.crates {
-            let desc = cr.description.as_deref().unwrap_or("Workspace member crate");
+            let desc = cr
+                .description
+                .as_deref()
+                .unwrap_or("Workspace member crate");
             out.push_str(&format!(
                 "### `{}`\n- **Path:** `{}`\n- **Version:** `{}`\n- **Description:** {}\n\n",
-                cr.name, cr.relative_path.display(), cr.version, desc
+                cr.name,
+                cr.relative_path.display(),
+                cr.version,
+                desc
             ));
         }
     }
@@ -106,7 +112,10 @@ pub fn render_boundary_contracts_section(inv: &WorkspaceInventory) -> String {
             || name.ends_with("Status")
         {
             let doc = t.doc_summary.as_deref().unwrap_or("-");
-            out.push_str(&format!("| `{}` | `{}` | `{}` | {} |\n", t.type_name, t.kind, t.module_path, doc));
+            out.push_str(&format!(
+                "| `{}` | `{}` | `{}` | {} |\n",
+                t.type_name, t.kind, t.module_path, doc
+            ));
             count += 1;
         }
     }
@@ -117,11 +126,7 @@ pub fn render_boundary_contracts_section(inv: &WorkspaceInventory) -> String {
 }
 
 /// Synchronizes AST-grounded sections into canonical documents.
-pub fn sync_repo_docs(
-    root: &Path,
-    inv: &WorkspaceInventory,
-    apply: bool,
-) -> Result<Vec<PathBuf>> {
+pub fn sync_repo_docs(root: &Path, inv: &WorkspaceInventory, apply: bool) -> Result<Vec<PathBuf>> {
     let mut modified = Vec::new();
 
     // 1. ARCHITECTURE.md -> Crate Topology

@@ -92,7 +92,10 @@ fn test_discover_workspace_repos() -> std::result::Result<(), Box<dyn std::error
     let root = tmp.path();
 
     std::fs::create_dir_all(root.join("sub-repo-a"))?;
-    std::fs::write(root.join("sub-repo-a").join("Cargo.toml"), "[package]\nname=\"sub-repo-a\"")?;
+    std::fs::write(
+        root.join("sub-repo-a").join("Cargo.toml"),
+        "[package]\nname=\"sub-repo-a\"",
+    )?;
     std::fs::write(root.join("sub-repo-a").join("README.md"), "# Sub Repo A")?;
 
     std::fs::create_dir_all(root.join("sub-repo-b"))?;
@@ -125,12 +128,20 @@ fn test_spec_contracts_boundary_types() {
     });
 
     let mut violations = Vec::new();
-    rules::audit_spec_contracts("# Behavioral Spec\n\nNo types mentioned.", &inv, &mut violations);
+    rules::audit_spec_contracts(
+        "# Behavioral Spec\n\nNo types mentioned.",
+        &inv,
+        &mut violations,
+    );
     assert_eq!(violations.len(), 1);
     assert!(violations[0].contains("ChalklineError"));
 
     let mut clean_violations = Vec::new();
-    rules::audit_spec_contracts("# Behavioral Spec\n\nMentions ChalklineError explicitly.", &inv, &mut clean_violations);
+    rules::audit_spec_contracts(
+        "# Behavioral Spec\n\nMentions ChalklineError explicitly.",
+        &inv,
+        &mut clean_violations,
+    );
     assert!(clean_violations.is_empty());
 }
 
@@ -156,7 +167,9 @@ fn test_agents_directives_and_links() -> std::result::Result<(), Box<dyn std::er
 fn test_heading_section_replacement() {
     let original = "# Title\n\nIntro.\n\n## Crate & Package Topology\n\nOld crate listing.\n\n## Next Section\n\nPreserved.\n";
     let replacement = "- New Crate A\n- New Crate B";
-    let updated = replace_heading_section(original, "crate", replacement).expect("Heading replaced");
+    let Some(updated) = replace_heading_section(original, "crate", replacement) else {
+        panic!("heading was not replaced");
+    };
     assert!(updated.contains("- New Crate A"));
     assert!(updated.contains("## Next Section"));
     assert!(updated.contains("Preserved."));

@@ -1,7 +1,7 @@
 //! Markdown templates for the 9 canonical repository documents.
 
-use miter_engine::WorkspaceInventory;
 use crate::docs::config::DocType;
+use miter_engine::WorkspaceInventory;
 
 /// Renders a scaffolded template for any of the 9 canonical documentation types.
 pub fn render_template(doc_type: DocType, inv: &WorkspaceInventory) -> String {
@@ -20,7 +20,9 @@ pub fn render_template(doc_type: DocType, inv: &WorkspaceInventory) -> String {
 
 fn render_readme(inv: &WorkspaceInventory) -> String {
     let title = inv.workspace_name.as_deref().unwrap_or("Project");
-    let mut out = format!("# `{title}`\n\n> High-reliability, deterministic neurosymbolic systems engineering.\n\n");
+    let mut out = format!(
+        "# `{title}`\n\n> High-reliability, deterministic neurosymbolic systems engineering.\n\n"
+    );
     out.push_str("## Ecosystem Architecture\n\nPart of the **[`gaugeblock`](https://gaugeblock.dev)** ecosystem.\n\n");
     out.push_str("## CLI Reference\n\n| Command | Description |\n|---|---|\n");
     if inv.cli_commands.is_empty() {
@@ -61,26 +63,44 @@ fn render_product(inv: &WorkspaceInventory) -> String {
 }
 
 fn render_architecture(inv: &WorkspaceInventory) -> String {
-    let mut out = String::from("# System Architecture\n\n## Subsystem Topology\n\n```mermaid\nflowchart TD\n    CLI[\"CLI Binary\"] --> Core[\"Domain Core Engine\"]\n    MCP[\"MCP Stdio Server\"] --> Core\n```\n\n## Crate & Package Topology\n\n");
+    let mut out = String::from(
+        "# System Architecture\n\n## Subsystem Topology\n\n```mermaid\nflowchart TD\n    CLI[\"CLI Binary\"] --> Core[\"Domain Core Engine\"]\n    MCP[\"MCP Stdio Server\"] --> Core\n```\n\n## Crate & Package Topology\n\n",
+    );
     if inv.crates.is_empty() {
         out.push_str("- Standalone root crate\n");
     } else {
         for cr in &inv.crates {
-            let desc = cr.description.as_deref().unwrap_or("Workspace member crate");
-            out.push_str(&format!("### `{}`\n- **Path:** `{}`\n- **Version:** `{}`\n- **Description:** {}\n\n",
-                cr.name, cr.relative_path.display(), cr.version, desc));
+            let desc = cr
+                .description
+                .as_deref()
+                .unwrap_or("Workspace member crate");
+            out.push_str(&format!(
+                "### `{}`\n- **Path:** `{}`\n- **Version:** `{}`\n- **Description:** {}\n\n",
+                cr.name,
+                cr.relative_path.display(),
+                cr.version,
+                desc
+            ));
         }
     }
     out
 }
 
 fn render_spec(inv: &WorkspaceInventory) -> String {
-    let mut out = String::from("# Behavioral Specifications & Invariants\n\n## Invariant Rules\n\n1. **Deterministic Output:** Pure function of input tree and arguments.\n2. **Safe Error Handling:** Strong `thiserror` enums, zero unwrap/expect in library paths.\n\n## Formal Type Contracts\n\n| Type | Kind | Module | Summary |\n|---|---|---|---|\n");
+    let mut out = String::from(
+        "# Behavioral Specifications & Invariants\n\n## Invariant Rules\n\n1. **Deterministic Output:** Pure function of input tree and arguments.\n2. **Safe Error Handling:** Strong `thiserror` enums, zero unwrap/expect in library paths.\n\n## Formal Type Contracts\n\n| Type | Kind | Module | Summary |\n|---|---|---|---|\n",
+    );
     let mut count = 0;
     for t in &inv.public_types {
-        if t.type_name.ends_with("Error") || t.type_name.ends_with("Config") || t.type_name.ends_with("Report") {
+        if t.type_name.ends_with("Error")
+            || t.type_name.ends_with("Config")
+            || t.type_name.ends_with("Report")
+        {
             let d = t.doc_summary.as_deref().unwrap_or("-");
-            out.push_str(&format!("| `{}` | `{}` | `{}` | {} |\n", t.type_name, t.kind, t.module_path, d));
+            out.push_str(&format!(
+                "| `{}` | `{}` | `{}` | {} |\n",
+                t.type_name, t.kind, t.module_path, d
+            ));
             count += 1;
         }
     }
@@ -118,7 +138,9 @@ fn render_roadmap(inv: &WorkspaceInventory) -> String {
 }
 
 fn render_changelog(inv: &WorkspaceInventory) -> String {
-    let mut out = String::from("# Changelog\n\nAll notable changes will be documented in this file.\n\n## [Unreleased]\n\n### Added\n");
+    let mut out = String::from(
+        "# Changelog\n\nAll notable changes will be documented in this file.\n\n## [Unreleased]\n\n### Added\n",
+    );
     if let Some(git) = &inv.git {
         for commit in git.unreleased_commits.iter().take(10) {
             out.push_str(&format!("- {commit}\n"));
