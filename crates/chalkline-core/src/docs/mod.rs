@@ -11,10 +11,13 @@ pub mod config;
 pub mod drift;
 pub mod migration;
 pub mod rules;
+mod spec_symbols;
 pub mod sync;
 pub mod templates;
 pub mod workspace;
 
+#[cfg(test)]
+mod spec_symbol_tests;
 #[cfg(test)]
 mod tests;
 

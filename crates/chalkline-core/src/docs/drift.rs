@@ -8,6 +8,7 @@ use miter_engine::WorkspaceInventory;
 
 use crate::docs::config::{DocType, DocsConfig};
 use crate::docs::rules;
+use crate::docs::spec_symbols;
 
 /// Status of a documentation file.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
@@ -98,7 +99,14 @@ pub fn verify_docs_drift(
             ));
         }
 
-        audit_document_semantics(doc_type, &content, &file_path, config, inventory, &mut violations);
+        audit_document_semantics(
+            doc_type,
+            &content,
+            &file_path,
+            config,
+            inventory,
+            &mut violations,
+        );
 
         let status = if violations.is_empty() {
             DocStatus::Present
@@ -134,6 +142,7 @@ fn audit_document_semantics(
         }
         DocType::Spec if config.policies.enforce_public_type_contracts => {
             rules::audit_spec_contracts(content, inv, violations);
+            spec_symbols::audit_spec_declared_contracts(content, inv, violations);
         }
         DocType::Readme if config.policies.enforce_readme_cli_flags => {
             rules::audit_readme_cli(content, inv, violations);

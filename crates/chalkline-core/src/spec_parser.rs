@@ -3,7 +3,8 @@
 #![forbid(unsafe_code)]
 
 use crate::error::Result;
-use crate::model::{DecisionHole, SharedTypeContract, SpecDoc, SpecTask};
+use crate::model::{DecisionHole, SpecDoc, SpecTask};
+use crate::spec_contracts::parse_contracts_from_markdown;
 use pulldown_cmark::{Event, HeadingLevel, Options, Parser, Tag, TagEnd};
 use std::path::{Path, PathBuf};
 
@@ -212,10 +213,5 @@ fn parse_task_line(line: &str, fallback_idx: usize) -> (String, String) {
 
 fn parse_decisions_from_markdown(_content: &str) -> Vec<DecisionHole> {
     // Basic decision extraction from markdown sections
-    Vec::new()
-}
-
-fn parse_contracts_from_markdown(_content: &str) -> Vec<SharedTypeContract> {
-    // Basic contract extraction from markdown tables
     Vec::new()
 }

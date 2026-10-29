@@ -14,6 +14,7 @@ pub mod error;
 pub mod griller;
 pub mod model;
 pub mod recon;
+mod spec_contracts;
 pub mod spec_parser;
 
 pub use contracts_gen::ContractsGenerator;
