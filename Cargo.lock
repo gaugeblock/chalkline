@@ -192,6 +192,7 @@ dependencies = [
 name = "chalkline-core"
 version = "0.1.0-beta.4"
 dependencies = [
+ "gaugeblock-workspace",
  "miter-engine",
  "pulldown-cmark",
  "sawhorse-core",
@@ -604,6 +605,14 @@ dependencies = [
 name = "gaugeblock-git"
 version = "0.1.0-beta.1"
 dependencies = [
+ "thiserror 2.0.21",
+]
+
+[[package]]
+name = "gaugeblock-workspace"
+version = "0.1.0-beta.1"
+dependencies = [
+ "gaugeblock-git",
  "thiserror 2.0.21",
 ]
 
@@ -1127,6 +1136,7 @@ dependencies = [
  "dockerfile-parser",
  "gaugeblock-contracts",
  "gaugeblock-git",
+ "gaugeblock-workspace",
  "globset",
  "hcl-rs",
  "miter-ast",
@@ -1642,6 +1652,7 @@ dependencies = [
  "async-trait",
  "futures-util",
  "gaugeblock-contracts",
+ "gaugeblock-workspace",
  "reqwest",
  "serde",
  "serde_json",
@@ -1892,6 +1903,7 @@ version = "0.1.0-beta.5"
 dependencies = [
  "gaugeblock-contracts",
  "gaugeblock-git",
+ "gaugeblock-workspace",
  "rusqlite",
  "serde",
  "serde_json",
@@ -2793,10 +2805,6 @@ version = "0.1.0-beta.4"
 
 [[patch.unused]]
 name = "gaugeblock-common"
-version = "0.1.0-beta.1"
-
-[[patch.unused]]
-name = "gaugeblock-workspace"
 version = "0.1.0-beta.1"
 
 [[patch.unused]]

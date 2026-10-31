@@ -207,7 +207,9 @@ impl DocsConfig {
 
     /// Loads `.gaugeblock/docs.toml` from a repository root, or returns defaults if absent.
     pub fn load_or_default(root: &Path) -> Result<Self> {
-        let path = root.join(".gaugeblock").join("docs.toml");
+        let path = gaugeblock_workspace::GaugeblockPaths::at(root)
+            .root()
+            .join("docs.toml");
         if !path.is_file() {
             return Ok(Self::default());
         }
@@ -219,8 +221,9 @@ impl DocsConfig {
 
     /// Saves the configuration to `.gaugeblock/docs.toml`.
     pub fn save(&self, root: &Path) -> Result<PathBuf> {
-        let dir = root.join(".gaugeblock");
-        fs::create_dir_all(&dir)?;
+        let paths = gaugeblock_workspace::GaugeblockPaths::at(root);
+        let dir = paths.root();
+        fs::create_dir_all(dir)?;
         let path = dir.join("docs.toml");
         let content = toml::to_string_pretty(self).map_err(|e| {
             ChalklineError::Validation(format!("Failed to serialize docs.toml: {e}"))
