@@ -75,6 +75,7 @@ The following boundary and wire contracts are exported by `chalkline-core`:
 | `DocEntryConfig` | `struct` | `chalkline_core::docs::config` | Individual canonical document path and required status. |
 | `DocsPoliciesConfig` | `struct` | `chalkline_core::docs::config` | Verification policies governing AST drift checks. |
 | `DocMigrationPlan` | `struct` | `chalkline_core::docs::migration` | Section classification plan for brownfield document migration. |
+| `ChalklineHandler` | `struct` | `chalkline_mcp::lib` | The MCP server's tool surface; the stdio loop, `content` envelope and failure codes come from `gaugeblock-mcp`. |
 
 ---
 
