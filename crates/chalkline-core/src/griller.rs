@@ -4,8 +4,7 @@
 
 use crate::error::Result;
 use crate::model::{DecisionHole, DecisionOption, SpecDoc};
-use sawhorse_core::ModelRole;
-use sawhorse_core::types::InferenceRequest;
+use gaugeblock_contracts::{InferenceRequest, ModelRole};
 
 /// Ambiguity griller and decision engine.
 #[derive(Debug, Default)]
