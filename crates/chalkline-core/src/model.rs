@@ -88,25 +88,7 @@ impl DecisionOption {
     }
 }
 
-/// Neutral wire schema locked by `chalkline` so `dado` can emit matching Rust + TS types.
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
-pub struct SharedTypeContract {
-    /// Name of the contract type (e.g., "UserSession", "TaskReceipt").
-    pub name: String,
-    /// Typed fields comprising the contract.
-    pub fields: Vec<ContractField>,
-}
-
-/// A single field inside a `SharedTypeContract`.
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
-pub struct ContractField {
-    /// Field identifier.
-    pub name: String,
-    /// Canonical neutral type: "uuid", "string", "i64", "vec<string>", "option<i32>".
-    pub canonical_type: String,
-    /// Whether the field is mandatory.
-    pub required: bool,
-}
+pub use gaugeblock_contracts::{ContractField, SharedTypeContract};
 
 /// A parsed task item from a specification document.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
