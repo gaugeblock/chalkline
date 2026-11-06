@@ -24,7 +24,7 @@ mod tests;
 pub use config::{DocEntryConfig, DocType, DocsConfig, DocsPoliciesConfig, DocumentEntries};
 pub use drift::{DocAuditItem, DocAuditReport, DocStatus, verify_docs_drift};
 pub use migration::{DocMigrationPlan, MarkdownSection};
-pub use miter_engine::inspect_workspace;
+pub use miter_inventory::inspect_workspace;
 pub use sync::{
     render_boundary_contracts_section, render_cli_reference_section, render_crates_section,
     replace_heading_section, sync_repo_docs,

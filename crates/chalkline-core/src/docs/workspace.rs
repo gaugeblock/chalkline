@@ -7,7 +7,7 @@ use std::path::{Path, PathBuf};
 use crate::docs::config::DocsConfig;
 use crate::docs::drift::{DocAuditReport, DocStatus, verify_docs_drift};
 use crate::error::{ChalklineError, Result};
-use miter_engine::inspect_workspace;
+use miter_inventory::inspect_workspace;
 
 /// Discovered member repository within a multi-repo workspace.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]

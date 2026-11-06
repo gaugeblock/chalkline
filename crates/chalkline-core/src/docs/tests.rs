@@ -2,7 +2,7 @@
 
 use std::path::PathBuf;
 
-use miter_engine::{ToolchainInventory, WorkspaceInventory};
+use miter_inventory::{ToolchainInventory, WorkspaceInventory};
 
 use super::*;
 
@@ -114,13 +114,13 @@ fn test_discover_workspace_repos() -> std::result::Result<(), Box<dyn std::error
 #[test]
 fn test_spec_contracts_boundary_types() {
     let mut inv = mock_inventory();
-    inv.public_types.push(miter_engine::PublicTypeInventory {
+    inv.public_types.push(miter_inventory::PublicTypeInventory {
         module_path: "chalkline_core::error".into(),
         type_name: "ChalklineError".into(),
         kind: "enum".into(),
         doc_summary: Some("Error enum".into()),
     });
-    inv.public_types.push(miter_engine::PublicTypeInventory {
+    inv.public_types.push(miter_inventory::PublicTypeInventory {
         module_path: "chalkline_core::internal".into(),
         type_name: "TrivialHelper".into(),
         kind: "struct".into(),

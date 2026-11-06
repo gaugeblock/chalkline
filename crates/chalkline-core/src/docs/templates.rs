@@ -1,7 +1,7 @@
 //! Markdown templates for the 9 canonical repository documents.
 
 use crate::docs::config::DocType;
-use miter_engine::WorkspaceInventory;
+use miter_inventory::WorkspaceInventory;
 
 /// Renders a scaffolded template for any of the 9 canonical documentation types.
 pub fn render_template(doc_type: DocType, inv: &WorkspaceInventory) -> String {

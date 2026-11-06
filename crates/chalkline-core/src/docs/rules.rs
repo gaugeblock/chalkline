@@ -1,6 +1,6 @@
 //! Semantic validation and AST drift audit rules for canonical documentation.
 
-use miter_engine::WorkspaceInventory;
+use miter_inventory::WorkspaceInventory;
 use pulldown_cmark::{Event, Parser, Tag};
 use std::path::Path;
 
@@ -28,7 +28,7 @@ pub fn audit_spec_contracts(content: &str, inv: &WorkspaceInventory, violations:
     }
 }
 
-fn is_boundary_or_contract_type(t: &miter_engine::PublicTypeInventory) -> bool {
+fn is_boundary_or_contract_type(t: &miter_inventory::PublicTypeInventory) -> bool {
     let name = &t.type_name;
     let mod_path = &t.module_path;
 
