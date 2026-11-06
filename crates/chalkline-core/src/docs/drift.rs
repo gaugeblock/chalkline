@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 use std::fs;
 use std::path::{Path, PathBuf};
 
-use miter_inventory::WorkspaceInventory;
+use gaugeblock_inventory::WorkspaceInventory;
 
 use crate::docs::config::{DocType, DocsConfig};
 use crate::docs::rules;

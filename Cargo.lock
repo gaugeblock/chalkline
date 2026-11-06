@@ -131,8 +131,8 @@ name = "chalkline-core"
 version = "0.1.0-beta.4"
 dependencies = [
  "gaugeblock-contracts",
+ "gaugeblock-inventory",
  "gaugeblock-workspace",
- "miter-inventory",
  "pulldown-cmark",
  "serde",
  "serde_json",
@@ -399,6 +399,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "gaugeblock-inventory"
+version = "0.1.0-beta.1"
+dependencies = [
+ "gaugeblock-git",
+ "serde",
+ "serde_json",
+ "thiserror",
+ "toml",
+]
+
+[[package]]
 name = "gaugeblock-mcp"
 version = "0.1.0-beta.1"
 dependencies = [
@@ -602,17 +613,6 @@ dependencies = [
  "log",
  "wasi",
  "windows-sys",
-]
-
-[[package]]
-name = "miter-inventory"
-version = "0.1.0-beta.4"
-dependencies = [
- "gaugeblock-git",
- "serde",
- "serde_json",
- "thiserror",
- "toml",
 ]
 
 [[package]]

@@ -1,6 +1,6 @@
 //! Native Markdown AST heading-targeted documentation synchronizer via pulldown-cmark.
 
-use miter_inventory::WorkspaceInventory;
+use gaugeblock_inventory::WorkspaceInventory;
 use pulldown_cmark::{Event, HeadingLevel, Parser, Tag, TagEnd};
 use std::fs;
 use std::path::{Path, PathBuf};

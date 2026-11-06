@@ -2,7 +2,7 @@
 
 use std::path::PathBuf;
 
-use miter_inventory::{PublicTypeInventory, ToolchainInventory, WorkspaceInventory};
+use gaugeblock_inventory::{PublicTypeInventory, ToolchainInventory, WorkspaceInventory};
 
 use crate::docs::spec_symbols::audit_spec_declared_contracts;
 use crate::spec_contracts::parse_contracts_from_markdown;

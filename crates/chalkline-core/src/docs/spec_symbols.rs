@@ -1,6 +1,6 @@
 //! Reverse-direction spec audit: what the specification claims, the AST must still define.
 
-use miter_inventory::WorkspaceInventory;
+use gaugeblock_inventory::WorkspaceInventory;
 
 /// Audits contracts the specification declares against the workspace AST.
 ///
