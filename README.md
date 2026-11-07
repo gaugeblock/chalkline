@@ -3,7 +3,7 @@
 [![Version](https://img.shields.io/badge/version-0.1.0--beta.2-blue.svg)](https://gaugeblock.dev)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](LICENSE)
 [![gaugeblock](https://img.shields.io/badge/suite-gaugeblock-orange.svg)](https://github.com/gaugeblock)
-[![Documentation](https://img.shields.io/badge/docs-9--doc%20topology-green.svg)](ARCHITECTURE.md)
+[![Documentation](https://img.shields.io/badge/docs-9--doc%20topology-green.svg)](docs/ARCHITECTURE.md)
 
 Part of the **[`gaugeblock`](https://gaugeblock.dev)** deterministic neurosymbolic suite.
 
@@ -135,12 +135,12 @@ chalkline docs migrate legacy-README.md --apply
 
 `chalkline` adheres strictly to the canonical **9-Document Architecture** (audited via `chalkline docs check`):
 * **[`README.md`](./README.md):** Public elevator pitch, ecosystem architecture, installation, and CLI reference.
-* **[`CONTRIBUTING.md`](./CONTRIBUTING.md):** Local toolchain prerequisites, tiered verification loop, and PR etiquette.
-* **[`PRODUCT.md`](./PRODUCT.md):** Target personas, developer friction points, JTBD framework, and telemetry metrics.
-* **[`ARCHITECTURE.md`](./ARCHITECTURE.md):** Subsystem Mermaid topology, sub-crate boundaries, and AST dataflow pipelines.
-* **[`SPEC.md`](./SPEC.md):** Behavioral invariants, state machines, formal boundary wire types, and exit codes.
-* **[`DESIGN.md`](./DESIGN.md):** Architectural Decision Records (ADRs) explaining core design trade-offs.
-* **[`ROADMAP.md`](./ROADMAP.md):** Active beta lifecycle status, completed capabilities, and future horizons.
+* **[`CONTRIBUTING.md`](docs/CONTRIBUTING.md):** Local toolchain prerequisites, tiered verification loop, and PR etiquette.
+* **[`PRODUCT.md`](docs/PRODUCT.md):** Target personas, developer friction points, JTBD framework, and telemetry metrics.
+* **[`ARCHITECTURE.md`](docs/ARCHITECTURE.md):** Subsystem Mermaid topology, sub-crate boundaries, and AST dataflow pipelines.
+* **[`SPEC.md`](docs/SPEC.md):** Behavioral invariants, state machines, formal boundary wire types, and exit codes.
+* **[`DESIGN.md`](docs/DESIGN.md):** Architectural Decision Records (ADRs) explaining core design trade-offs.
+* **[`ROADMAP.md`](docs/ROADMAP.md):** Active beta lifecycle status, completed capabilities, and future horizons.
 * **[`CHANGELOG.md`](./CHANGELOG.md):** Historical release entries and unreleased changes (Keep a Changelog format).
 * **[`AGENTS.md`](./AGENTS.md):** Autonomous systems directives, non-negotiable engineering laws, and <=250 LOC ceilings.
 
