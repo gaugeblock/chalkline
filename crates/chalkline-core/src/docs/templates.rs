@@ -162,3 +162,22 @@ fn render_agents(inv: &WorkspaceInventory) -> String {
         6. **Atomic Conventional Commits:** `<type>(<scope>): <summary>` format.\n"
     )
 }
+
+/// Scaffolded `docs/decisions/README.md` (`GB-276`).
+///
+/// The rule is stated in the file rather than only in a convention document, because the person writing the
+/// next record is reading this one. Decision records are not one of the nine documents: they are an
+/// unbounded set with their own rules, so they are scaffolded separately.
+pub const DECISIONS_INDEX_TEMPLATE: &str = r"# Architecture Decision Records
+
+Decisions listed in the order they were **made**, not the order they were written down. Backfilled records
+are numbered by decision date, because a record's number is how it is cited and a number reflecting write
+order would misrepresent history. `chalkline docs check` enforces that ordering.
+
+Format: MADR. One file per decision, `NNNN-slug.md`, front matter carrying `status` and `date`, sections
+`Context and Problem Statement` and `Decision Outcome`. This index must list every record - an unlisted
+record is a decision nobody will find.
+
+| # | Date | Decision |
+|:--|:--|:--|
+";
