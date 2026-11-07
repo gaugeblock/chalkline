@@ -136,7 +136,6 @@ dependencies = [
  "pulldown-cmark",
  "serde",
  "serde_json",
- "storypole-core",
  "tempfile",
  "thiserror",
  "toml",
@@ -150,8 +149,10 @@ dependencies = [
  "chalkline-core",
  "gaugeblock-mcp",
  "serde_json",
+ "storypole-core",
  "tempfile",
  "tracing",
+ "uuid",
 ]
 
 [[package]]

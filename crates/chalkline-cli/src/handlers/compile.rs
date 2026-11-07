@@ -18,11 +18,15 @@ pub fn resolve_spec_file(root_dir: &Path, explicit: Option<PathBuf>) -> Result<P
         bail!("Specified spec file not found: {}", p.display());
     }
 
+    // Six of the nine documents moved into `docs/` (`GB-275`). Both locations are probed because chalkline
+    // has to work in a repository that has not migrated, and a root-only probe reported every specification
+    // missing without erroring - the same silence that shipped the move.
     let candidates = ["SPEC.md", "PRODUCT.md", "ARCHITECTURE.md"];
     for name in candidates {
-        let path = root_dir.join(name);
-        if path.exists() {
-            return Ok(path);
+        for path in [root_dir.join(name), root_dir.join("docs").join(name)] {
+            if path.exists() {
+                return Ok(path);
+            }
         }
     }
 
@@ -41,8 +45,9 @@ pub fn handle_compile(root_dir: &Path, args: CompileArgs, json: bool) -> Result<
         .with_context(|| format!("Failed to parse {}", spec_path.display()))?;
 
     let compiler = DagCompiler::new();
+    let mut sink = chalkline_mcp::storypole_sink::StorypoleSink::open(root_dir)?;
     let receipt = compiler
-        .compile(root_dir, &doc)
+        .compile(&mut sink, &doc)
         .with_context(|| "Failed to compile tasks into storypole")?;
 
     if json {

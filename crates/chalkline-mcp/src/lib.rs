@@ -5,6 +5,7 @@
 
 pub mod dispatch;
 pub mod schema;
+pub mod storypole_sink;
 
 use gaugeblock_mcp::{McpHandler, RpcRequest, RpcResponse, ToolOutcome};
 use serde_json::Value;

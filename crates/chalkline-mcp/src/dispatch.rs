@@ -63,8 +63,10 @@ pub fn dispatch_tool(name: &str, args: &Value) -> Result<Value, String> {
                 .map_err(|e| format!("Failed to parse spec file: {e}"))?;
 
             let compiler = DagCompiler::new();
+            let mut sink = crate::storypole_sink::StorypoleSink::open(&repo_path)
+                .map_err(|e| format!("Failed to open storypole ledger: {e}"))?;
             let receipt = compiler
-                .compile(&repo_path, &doc)
+                .compile(&mut sink, &doc)
                 .map_err(|e| format!("Failed to compile DAG into storypole: {e}"))?;
 
             Ok(json!({

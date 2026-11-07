@@ -25,7 +25,12 @@ pub fn handle_grill(root_dir: &Path, args: GrillArgs, json: bool) -> Result<()> 
             tasks: Vec::new(),
         }),
         None => SpecDoc {
-            path: root_dir.join("SPEC.md"),
+            // `docs/` first, then the root: the specification moved under `GB-275` (`GB-282`).
+            path: ["docs/SPEC.md", "SPEC.md"]
+                .iter()
+                .map(|relative| root_dir.join(relative))
+                .find(|candidate| candidate.exists())
+                .unwrap_or_else(|| root_dir.join("docs").join("SPEC.md")),
             title: "Feature Specification".to_string(),
             overview: String::new(),
             decisions: Vec::new(),
@@ -111,7 +116,8 @@ pub fn handle_grill(root_dir: &Path, args: GrillArgs, json: bool) -> Result<()> 
 
     let compiled_receipt = if args.compile {
         let compiler = DagCompiler::new();
-        Some(compiler.compile(root_dir, &doc)?)
+        let mut sink = chalkline_mcp::storypole_sink::StorypoleSink::open(root_dir)?;
+        Some(compiler.compile(&mut sink, &doc)?)
     } else {
         None
     };

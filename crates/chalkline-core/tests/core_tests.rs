@@ -1,12 +1,11 @@
 #![allow(clippy::unwrap_used, clippy::expect_used)]
 
+use chalkline_core::dag_compiler::{CompiledTask, TaskSink};
 use chalkline_core::model::{
     ContractField, DecisionHole, DecisionOption, SharedTypeContract, SpecDoc, SpecTask,
 };
 use chalkline_core::{ContractsGenerator, DagCompiler, Griller, ReconEngine, SpecParser};
 use std::path::PathBuf;
-use storypole_core::StorypoleConfig;
-use storypole_core::store::StorypoleStore;
 use tempfile::tempdir;
 
 #[test]
@@ -122,12 +121,30 @@ fn test_contracts_generator_export() {
     assert!(content.contains("session_id"));
 }
 
-#[test]
-fn test_dag_compiler_with_storypole() {
-    let dir = tempdir().unwrap();
-    let config = StorypoleConfig::default();
-    let _store = StorypoleStore::init(dir.path(), config).unwrap();
+/// Records what the compiler emits, so the compiler can be tested with no engine at all (`GB-284`).
+#[derive(Default)]
+struct RecordingSink {
+    tasks: Vec<CompiledTask>,
+    edges: Vec<(u64, u64)>,
+}
 
+impl TaskSink for RecordingSink {
+    type Id = u64;
+
+    fn create(&mut self, task: &CompiledTask) -> chalkline_core::Result<(u64, String)> {
+        self.tasks.push(task.clone());
+        let id = self.tasks.len() as u64;
+        Ok((id, format!("GB-{id}")))
+    }
+
+    fn link_blocked_by(&mut self, child: u64, blocker: u64) -> chalkline_core::Result<()> {
+        self.edges.push((child, blocker));
+        Ok(())
+    }
+}
+
+#[test]
+fn test_dag_compiler_emits_tasks_and_edges() {
     let doc = SpecDoc {
         path: PathBuf::from("SPEC.md"),
         title: "Test Feature".to_string(),
@@ -153,8 +170,16 @@ fn test_dag_compiler_with_storypole() {
     };
 
     let compiler = DagCompiler::new();
-    let receipt = compiler.compile(dir.path(), &doc).unwrap();
+    let mut sink = RecordingSink::default();
+    let receipt = compiler.compile(&mut sink, &doc).unwrap();
+
     assert_eq!(receipt.tasks_compiled, 2);
     assert_eq!(receipt.edges_linked, 1);
-    assert_eq!(receipt.ticket_keys.len(), 2);
+    assert_eq!(receipt.ticket_keys, vec!["GB-1", "GB-2"]);
+    assert_eq!(sink.tasks[0].title, "Setup schema");
+    assert_eq!(sink.edges, vec![(2, 1)], "TASK-2 is blocked by TASK-1");
+    assert!(
+        sink.tasks[0].description.contains("Test Feature"),
+        "a spec task without a description names the specification"
+    );
 }
