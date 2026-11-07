@@ -113,6 +113,37 @@ pub fn audit_decision_records(root: &Path) -> Vec<DecisionFinding> {
         }
     }
 
+    // History must read in order. A record's number is how it is cited, so backfilled decisions are numbered
+    // by when they were made rather than when they were written down - and numbers must therefore never
+    // increase while dates go backwards. Without this, a later backfill silently produces an index that
+    // tells a false story about the project.
+    let mut dated: Vec<(String, String, String)> = Vec::new();
+    for (number, name) in &numbers {
+        let Ok(content) = std::fs::read_to_string(dir.join(name)) else {
+            continue;
+        };
+        let date = content.lines().find_map(|line| {
+            line.strip_prefix("date:")
+                .map(|value| value.trim().to_string())
+        });
+        if let Some(date) = date {
+            dated.push((number.clone(), date, name.clone()));
+        }
+    }
+    dated.sort_by(|a, b| a.0.cmp(&b.0));
+    for pair in dated.windows(2) {
+        if pair[1].1 < pair[0].1 {
+            findings.push(DecisionFinding {
+                path: format!("docs/decisions/{}", pair[1].2),
+                message: format!(
+                    "is numbered after {} but dated earlier ({} < {}), so the sequence no longer reads in \
+                     historical order",
+                    pair[0].2, pair[1].1, pair[0].1
+                ),
+            });
+        }
+    }
+
     // An index that omits a record is how a decision becomes unfindable.
     let index = ["README.md", "INDEX.md"]
         .iter()
@@ -210,6 +241,52 @@ mod tests {
             findings
                 .iter()
                 .any(|f| f.message.contains("Decision Outcome"))
+        );
+    }
+
+    #[test]
+    fn a_record_numbered_after_a_later_one_but_dated_earlier_is_reported() {
+        // The backfill case: numbering by write order instead of decision date tells a false story.
+        let dir = repo();
+        record(
+            dir.path(),
+            "0001-later.md",
+            "---
+status: accepted
+date: 2026-11-06
+---
+
+## Context and Problem Statement
+
+## Decision Outcome
+",
+        );
+        record(
+            dir.path(),
+            "0002-earlier.md",
+            "---
+status: accepted
+date: 2026-10-01
+---
+
+## Context and Problem Statement
+
+## Decision Outcome
+",
+        );
+        record(
+            dir.path(),
+            "README.md",
+            "0001-later.md 0002-earlier.md
+",
+        );
+
+        let findings = audit_decision_records(dir.path());
+        assert!(
+            findings
+                .iter()
+                .any(|f| f.message.contains("historical order")),
+            "expected an ordering finding, got {findings:?}"
         );
     }
 
