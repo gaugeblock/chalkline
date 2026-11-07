@@ -8,6 +8,7 @@
 //! - [`DocMigrationPlan`]: Brownfield document section disentangler and migration executor.
 
 pub mod config;
+pub mod decisions;
 pub mod drift;
 pub mod migration;
 pub mod rules;

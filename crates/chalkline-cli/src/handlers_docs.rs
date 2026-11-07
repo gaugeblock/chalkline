@@ -121,15 +121,28 @@ pub fn handle_docs(root_dir: &Path, args: DocsArgs, json: bool) -> Result<()> {
                     report.missing_count(),
                     report.drifted_count(),
                 );
+
+                // Decision records are audited separately from the nine documents (`GB-276`): they are a
+                // growing set with their own rules, not a tenth fixed document. Absence is not a failure.
+                let decisions = chalkline_core::docs::decisions::audit_decision_records(target);
+                if !decisions.is_empty() {
+                    println!("Decision records (MADR):");
+                    for finding in &decisions {
+                        println!("  * {}: {}", finding.path, finding.message);
+                    }
+                    println!();
+                }
             }
 
             // A drifted or missing document is a failure, not a note: callers gate on the exit
             // code, and a green exit with drift in the summary makes the check decorative.
-            if !report.is_clean() {
+            let decision_findings = chalkline_core::docs::decisions::audit_decision_records(target);
+            if !report.is_clean() || !decision_findings.is_empty() {
                 return Err(anyhow!(
-                    "Documentation audit failed: {} missing, {} drifted",
+                    "Documentation audit failed: {} missing, {} drifted, {} decision-record finding(s)",
                     report.missing_count(),
-                    report.drifted_count()
+                    report.drifted_count(),
+                    decision_findings.len()
                 ));
             }
         }
