@@ -122,6 +122,43 @@ pub fn verify_docs_drift(
         });
     }
 
+    // The root shelf rule (`GB-320`). Every other rule here confirms that a *declared* path exists and
+    // matches. None of them can see a document that was never declared, which is why a migration could
+    // leave ten files at a repository root while twelve targets reported clean: the audit's input was
+    // the configuration the migration was supposed to change.
+    let declared_at_root: Vec<&str> = DocType::ALL
+        .iter()
+        .map(|doc_type| config.entry_for(*doc_type).path.as_str())
+        .filter(|path| !path.contains('/'))
+        .collect();
+    let mut strays: Vec<String> = Vec::new();
+    if let Ok(entries) = fs::read_dir(root) {
+        for entry in entries.flatten() {
+            let name = entry.file_name().to_string_lossy().to_string();
+            if name.ends_with(".md") && !declared_at_root.contains(&name.as_str()) {
+                strays.push(name);
+            }
+        }
+    }
+    if !strays.is_empty() {
+        strays.sort();
+        items.push(DocAuditItem {
+            doc_type: DocType::Readme,
+            path: PathBuf::from("."),
+            status: DocStatus::Drifted,
+            violations: strays
+                .iter()
+                .map(|name| {
+                    format!(
+                        "Unexpected document at the repository root: '{name}' - a root holds only the \
+                         documents tooling looks for ({})",
+                        declared_at_root.join(", ")
+                    )
+                })
+                .collect(),
+        });
+    }
+
     DocAuditReport { items }
 }
 
