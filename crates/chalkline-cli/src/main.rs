@@ -26,10 +26,8 @@ fn main() -> Result<()> {
         .with_writer(std::io::stderr)
         .init();
 
-    let root_dir = match cli.dir {
-        Some(d) => d,
-        None => env::current_dir()?,
-    };
+    let root_dir = chalkline_core::root::resolve_root(cli.dir.as_deref(), &env::current_dir()?)
+        .map_err(|e| anyhow::anyhow!(e.to_string()))?;
 
     match cli.command {
         Commands::Grill(args) => handle_grill(&root_dir, args, cli.json)?,
