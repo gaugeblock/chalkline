@@ -135,7 +135,7 @@ chalkline docs migrate legacy-README.md --apply
 
 `chalkline` adheres strictly to the canonical **9-Document Architecture** (audited via `chalkline docs check`):
 * **[`README.md`](./README.md):** Public elevator pitch, ecosystem architecture, installation, and CLI reference.
-* **[`CONTRIBUTING.md`](docs/CONTRIBUTING.md):** Local toolchain prerequisites, tiered verification loop, and PR etiquette.
+* **[`CONTRIBUTING.md`](CONTRIBUTING.md):** Local toolchain prerequisites, tiered verification loop, and PR etiquette.
 * **[`PRODUCT.md`](docs/PRODUCT.md):** Target personas, developer friction points, JTBD framework, and telemetry metrics.
 * **[`ARCHITECTURE.md`](docs/ARCHITECTURE.md):** Subsystem Mermaid topology, sub-crate boundaries, and AST dataflow pipelines.
 * **[`SPEC.md`](docs/SPEC.md):** Behavioral invariants, state machines, formal boundary wire types, and exit codes.
