@@ -17,12 +17,6 @@ use std::env;
 fn main() -> Result<()> {
     let cli = Cli::parse();
 
-    // One span per invocation (`GB-339`). Opened before any work and closed with the outcome.
-    // The subcommand is the operation the panel groups by: `miter audit` and `miter verify` share an
-    // executable but not a job. Skipped when the first argument is a flag, which is not a command.
-    let command = std::env::args().nth(1).filter(|arg| !arg.starts_with('-'));
-    let invocation = gaugeblock_workspace::InvocationSpan::start("chalkline", command.as_deref());
-
     let filter = if cli.json { "error" } else { "warn" };
     tracing_subscriber::fmt()
         .with_env_filter(
@@ -32,10 +26,16 @@ fn main() -> Result<()> {
         .with_writer(std::io::stderr)
         .init();
 
-    let root_dir = chalkline_core::root::resolve_root(cli.dir.as_deref(), &env::current_dir()?)
-        .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+    // One span per invocation (`GB-339`), opened once logging is configured so it covers every fallible step
+    // below. Wrapping only the dispatch let pre-dispatch `?` calls return from `main` with the span still recorded
+    // as running - and `--dir`, the argument a user is most likely to mistype, was exactly the path that escaped.
+    let command = std::env::args().nth(1).filter(|arg| !arg.starts_with('-'));
+    let invocation = gaugeblock_workspace::InvocationSpan::start("chalkline", command.as_deref());
 
     let result = (|| -> Result<()> {
+        let root_dir = chalkline_core::root::resolve_root(cli.dir.as_deref(), &env::current_dir()?)
+            .map_err(|e| anyhow::anyhow!(e.to_string()))?;
+
         match cli.command {
             Commands::Grill(args) => handle_grill(&root_dir, args, cli.json)?,
             Commands::CompileDag(args) => handle_compile(&root_dir, args, cli.json)?,
