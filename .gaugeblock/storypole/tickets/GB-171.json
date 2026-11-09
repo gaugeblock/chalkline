@@ -1,0 +1,136 @@
+{
+  "ticket": {
+    "id": "f6750c99-ac1b-43e1-b144-9d936a514075",
+    "ticket_key": "GB-171",
+    "slug": "chalkline-docs-check-exits-zero-even-when-documents-have-drifted-f6750c",
+    "title": "chalkline docs check exits zero even when documents have drifted",
+    "description": "Found while building GB-168: chalkline docs check reports drifted documents in its summary but still exits 0, so a gate that relies on the exit code marks the docs step green while a document is drifted. Observed directly - outfeed reported 1 drifted (the new GateReport type) and the gate step passed; after documenting the type the drift went to 0 with the same exit code. The docs step needs a non-zero exit when missing or drifted counts are non-zero, or outfeed gate must parse the summary, which is the weaker option.",
+    "kind": "bug",
+    "status": "verified",
+    "priority": 3,
+    "scope": {
+      "repo": null,
+      "crate_name": "chalkline-core",
+      "module_path": null,
+      "target_files": [
+        "chalkline/crates/chalkline-cli/src/handlers_docs.rs"
+      ],
+      "target_symbols": [],
+      "labels": []
+    },
+    "edges": [],
+    "decisions": [],
+    "acceptance_criteria": [],
+    "plan": null,
+    "active_claim": null,
+    "latest_handoff": null,
+    "verification_receipt": {
+      "verifier": "cline",
+      "command": "n/a",
+      "exit_code": 0,
+      "diagnostic_count": null,
+      "summary": "Closed on chalkline main at 636ed4a, developed on fix/docs-check-exit-code with the lease taken before the edit. The workspace audit path already errored on violations while the single-repository path printed its summary and returned Ok, so callers that gate on the exit code - including outfeed gate step 6 - saw green with drift in the summary. Both paths now fail with the counts named. Verified live both ways: outfeed at 9 present, 0 missing, 0 drifted exits 0, and a probe workspace with a Cargo.toml and one undocumented public type reports 'Summary: 1 present, 5 missing, 0 drifted' then 'Error: Documentation audit failed: 5 missing, 0 drifted'. Gates: fmt clean, clippy --workspace --all-targets -D warnings clean, nextest 23/23.",
+      "verified_at_epoch_ms": 1793253959793,
+      "git_branch": "main",
+      "base_commit_sha": "636ed4ada7429a0d1687e2db91f066eb69db9165",
+      "head_commit_sha": "636ed4ada7429a0d1687e2db91f066eb69db9165",
+      "commit_shas": [
+        "636ed4ada7429a0d1687e2db91f066eb69db9165"
+      ],
+      "repo": null,
+      "chain_key": null
+    },
+    "created_at_epoch_ms": 1793253564508,
+    "updated_at_epoch_ms": 1794038013254,
+    "archived_at_epoch_ms": 1794038013254
+  },
+  "events": [
+    {
+      "event": "deferred_item_captured",
+      "task": {
+        "id": "f6750c99-ac1b-43e1-b144-9d936a514075",
+        "ticket_key": "GB-171",
+        "slug": "chalkline-docs-check-exits-zero-even-when-documents-have-drifted-f6750c",
+        "title": "chalkline docs check exits zero even when documents have drifted",
+        "description": "Found while building GB-168: chalkline docs check reports drifted documents in its summary but still exits 0, so a gate that relies on the exit code marks the docs step green while a document is drifted. Observed directly - outfeed reported 1 drifted (the new GateReport type) and the gate step passed; after documenting the type the drift went to 0 with the same exit code. The docs step needs a non-zero exit when missing or drifted counts are non-zero, or outfeed gate must parse the summary, which is the weaker option.",
+        "kind": "bug",
+        "status": "triage",
+        "priority": 3,
+        "scope": {
+          "repo": null,
+          "crate_name": "chalkline-core",
+          "module_path": null,
+          "target_files": [
+            "chalkline/crates/chalkline-cli/src/handlers_docs.rs"
+          ],
+          "target_symbols": [],
+          "labels": []
+        },
+        "edges": [],
+        "decisions": [],
+        "acceptance_criteria": [],
+        "plan": null,
+        "active_claim": null,
+        "latest_handoff": null,
+        "verification_receipt": null,
+        "created_at_epoch_ms": 1793253564508,
+        "updated_at_epoch_ms": 1793253564508
+      },
+      "captured_by_agent": "cline",
+      "discovered_from_task_id": null
+    },
+    {
+      "event": "task_claimed",
+      "task_id": "f6750c99-ac1b-43e1-b144-9d936a514075",
+      "claim": {
+        "agent_id": "cline",
+        "claimed_at_epoch_ms": 1793253785918,
+        "lease_expires_at_epoch_ms": 1793257385918,
+        "git_branch": "fix/docs-check-exit-code",
+        "base_commit_sha": null
+      }
+    },
+    {
+      "event": "status_changed",
+      "task_id": "f6750c99-ac1b-43e1-b144-9d936a514075",
+      "from": "triage",
+      "to": "in_progress",
+      "reason": "Claimed by cline",
+      "timestamp_ms": 1793253785918
+    },
+    {
+      "event": "task_verified",
+      "task_id": "f6750c99-ac1b-43e1-b144-9d936a514075",
+      "receipt": {
+        "verifier": "cline",
+        "command": "n/a",
+        "exit_code": 0,
+        "diagnostic_count": null,
+        "summary": "Closed on chalkline main at 636ed4a, developed on fix/docs-check-exit-code with the lease taken before the edit. The workspace audit path already errored on violations while the single-repository path printed its summary and returned Ok, so callers that gate on the exit code - including outfeed gate step 6 - saw green with drift in the summary. Both paths now fail with the counts named. Verified live both ways: outfeed at 9 present, 0 missing, 0 drifted exits 0, and a probe workspace with a Cargo.toml and one undocumented public type reports 'Summary: 1 present, 5 missing, 0 drifted' then 'Error: Documentation audit failed: 5 missing, 0 drifted'. Gates: fmt clean, clippy --workspace --all-targets -D warnings clean, nextest 23/23.",
+        "verified_at_epoch_ms": 1793253959793,
+        "git_branch": "main",
+        "base_commit_sha": "636ed4ada7429a0d1687e2db91f066eb69db9165",
+        "head_commit_sha": "636ed4ada7429a0d1687e2db91f066eb69db9165",
+        "commit_shas": [
+          "636ed4ada7429a0d1687e2db91f066eb69db9165"
+        ],
+        "repo": null,
+        "chain_key": null
+      }
+    },
+    {
+      "event": "status_changed",
+      "task_id": "f6750c99-ac1b-43e1-b144-9d936a514075",
+      "from": "verified",
+      "to": "archived",
+      "reason": "Archived out of active backlog",
+      "timestamp_ms": 1793289343358
+    },
+    {
+      "event": "task_archived",
+      "task_id": "f6750c99-ac1b-43e1-b144-9d936a514075",
+      "status": "verified",
+      "timestamp_ms": 1794038013254
+    }
+  ]
+}
