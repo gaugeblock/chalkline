@@ -119,6 +119,7 @@ dependencies = [
  "chalkline-core",
  "chalkline-mcp",
  "clap",
+ "gaugeblock-workspace",
  "inquire",
  "serde_json",
  "storypole-core",
