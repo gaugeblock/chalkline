@@ -1,0 +1,71 @@
+{
+  "events": [
+    {
+      "captured_by_agent": "cline",
+      "discovered_from_task_id": null,
+      "event": "deferred_item_captured",
+      "task": {
+        "acceptance_criteria": [],
+        "active_claim": null,
+        "created_at_epoch_ms": 1793947571066,
+        "decisions": [],
+        "description": "Reproduced 2026-11-06 while moving miter-inventory into common as gaugeblock-inventory (GB-204). 'chalkline docs check -d common' reported: [DRIFT] Readme - README missing documentation for CLI command 'scaffold'. common has no binary at all. The source of the string is gaugeblock-inventory/src/tests.rs, a clap fixture that writes 'pub enum Commands { Check {..}, Scaffold { path: String } }' into a TempDir: the repo-level clap extractor reads .rs text and treats the fixture as a declared subcommand. Moving the test file from src/ to tests/ did not help, so the scan is repo-wide, not source-dir-scoped. Workaround applied: the fixture now lives in src/fixtures/cli_enum.txt and is loaded with include_str!, so the scan cannot see it; the assertion is unchanged.\\n\\nRoot cause is the same class as GB-199, where miter deps counted test fixture strings as real crate references and the fix was to strip literals and comments before scanning. The clap extractor needs the same treatment; every crate whose tests embed a clap sample will otherwise demand documentation for a command it does not have.",
+        "edges": [],
+        "id": "2d894bea-a01e-4d18-b70a-c49a8a2d747f",
+        "kind": "bug",
+        "latest_handoff": null,
+        "plan": null,
+        "priority": 3,
+        "scope": {
+          "crate_name": "chalkline-core",
+          "labels": [
+            "docs,extractor,false-positive,gb-199"
+          ],
+          "module_path": null,
+          "repo": "chalkline",
+          "target_files": [],
+          "target_symbols": [
+            "chalkline_core::docs::rules"
+          ]
+        },
+        "slug": "chalkline-docs-check-counts-test-fixture-literals-as-real-cli-subcommands-so-a-repo-without-a-cli-is-told-to-document-one-2d894b",
+        "status": "triage",
+        "ticket_key": "CH-9",
+        "title": "chalkline docs check counts test fixture literals as real CLI subcommands, so a repo without a CLI is told to document one",
+        "updated_at_epoch_ms": 1793947571066,
+        "verification_receipt": null
+      }
+    }
+  ],
+  "ticket": {
+    "acceptance_criteria": [],
+    "active_claim": null,
+    "created_at_epoch_ms": 1793947571066,
+    "decisions": [],
+    "description": "Reproduced 2026-11-06 while moving miter-inventory into common as gaugeblock-inventory (GB-204). 'chalkline docs check -d common' reported: [DRIFT] Readme - README missing documentation for CLI command 'scaffold'. common has no binary at all. The source of the string is gaugeblock-inventory/src/tests.rs, a clap fixture that writes 'pub enum Commands { Check {..}, Scaffold { path: String } }' into a TempDir: the repo-level clap extractor reads .rs text and treats the fixture as a declared subcommand. Moving the test file from src/ to tests/ did not help, so the scan is repo-wide, not source-dir-scoped. Workaround applied: the fixture now lives in src/fixtures/cli_enum.txt and is loaded with include_str!, so the scan cannot see it; the assertion is unchanged.\\n\\nRoot cause is the same class as GB-199, where miter deps counted test fixture strings as real crate references and the fix was to strip literals and comments before scanning. The clap extractor needs the same treatment; every crate whose tests embed a clap sample will otherwise demand documentation for a command it does not have.",
+    "edges": [],
+    "id": "2d894bea-a01e-4d18-b70a-c49a8a2d747f",
+    "kind": "bug",
+    "latest_handoff": null,
+    "plan": null,
+    "priority": 3,
+    "scope": {
+      "crate_name": "chalkline-core",
+      "labels": [
+        "docs,extractor,false-positive,gb-199"
+      ],
+      "module_path": null,
+      "repo": "chalkline",
+      "target_files": [],
+      "target_symbols": [
+        "chalkline_core::docs::rules"
+      ]
+    },
+    "slug": "chalkline-docs-check-counts-test-fixture-literals-as-real-cli-subcommands-so-a-repo-without-a-cli-is-told-to-document-one-2d894b",
+    "status": "triage",
+    "ticket_key": "CH-9",
+    "title": "chalkline docs check counts test fixture literals as real CLI subcommands, so a repo without a CLI is told to document one",
+    "updated_at_epoch_ms": 1793947571066,
+    "verification_receipt": null
+  }
+}

@@ -1,0 +1,140 @@
+{
+  "events": [
+    {
+      "event": "task_created",
+      "task": {
+        "acceptance_criteria": [],
+        "active_claim": null,
+        "created_at_epoch_ms": 1793149801577,
+        "decisions": [],
+        "description": "Recursively discover all member repositories and audit 9-doc compliance across the entire meta-harness in a single invocation, emitting a matrix summary report",
+        "edges": [],
+        "id": "2359acb3-2fbd-45c8-9112-7cd9391af0bf",
+        "kind": "feature",
+        "latest_handoff": null,
+        "plan": null,
+        "priority": 1,
+        "scope": {
+          "crate_name": "chalkline-cli",
+          "labels": [],
+          "module_path": null,
+          "repo": "chalkline",
+          "target_files": [],
+          "target_symbols": []
+        },
+        "slug": "add-multi-repo-workspace-audit-flag-to-chalkline-docs-check-2359ac",
+        "status": "ready",
+        "ticket_key": "CH-3",
+        "title": "Add multi-repo --workspace audit flag to chalkline docs check",
+        "updated_at_epoch_ms": 1793149801577,
+        "verification_receipt": null
+      }
+    },
+    {
+      "edge": {
+        "kind": "parent_epic",
+        "target_id": "1d40d107-90c1-413d-b453-946e0a340932",
+        "target_repo": "chalkline",
+        "target_ticket_key": "CH-2"
+      },
+      "event": "edge_added",
+      "task_id": "2359acb3-2fbd-45c8-9112-7cd9391af0bf",
+      "timestamp_ms": 1793149813797
+    },
+    {
+      "claim": {
+        "agent_id": "agent-antigravity",
+        "base_commit_sha": "5803f04420e22e16b2075202e4a44c2627b946b8",
+        "claimed_at_epoch_ms": 1793150459704,
+        "git_branch": "feat/chalkline-docs-evolution",
+        "lease_expires_at_epoch_ms": 1793154059704
+      },
+      "event": "task_claimed",
+      "task_id": "2359acb3-2fbd-45c8-9112-7cd9391af0bf"
+    },
+    {
+      "event": "status_changed",
+      "from": "ready",
+      "reason": "Claimed by agent-antigravity",
+      "task_id": "2359acb3-2fbd-45c8-9112-7cd9391af0bf",
+      "timestamp_ms": 1793150459704,
+      "to": "in_progress"
+    },
+    {
+      "event": "task_verified",
+      "receipt": {
+        "base_commit_sha": "5803f04420e22e16b2075202e4a44c2627b946b8",
+        "chain_key": null,
+        "command": "n/a",
+        "commit_shas": [
+          "5803f04420e22e16b2075202e4a44c2627b946b8"
+        ],
+        "diagnostic_count": null,
+        "exit_code": 0,
+        "git_branch": "feat/chalkline-docs-evolution",
+        "head_commit_sha": "5803f04420e22e16b2075202e4a44c2627b946b8",
+        "repo": null,
+        "summary": "Added --workspace multi-repo discovery and audit reporting to chalkline docs check with tests passing",
+        "verified_at_epoch_ms": 1793151193463,
+        "verifier": "manual"
+      },
+      "task_id": "2359acb3-2fbd-45c8-9112-7cd9391af0bf"
+    },
+    {
+      "event": "task_archived",
+      "status": "verified",
+      "task_id": "2359acb3-2fbd-45c8-9112-7cd9391af0bf",
+      "timestamp_ms": 1794037975792
+    }
+  ],
+  "ticket": {
+    "acceptance_criteria": [],
+    "active_claim": null,
+    "archived_at_epoch_ms": 1794037975792,
+    "created_at_epoch_ms": 1793149801577,
+    "decisions": [],
+    "description": "Recursively discover all member repositories and audit 9-doc compliance across the entire meta-harness in a single invocation, emitting a matrix summary report",
+    "edges": [
+      {
+        "kind": "parent_epic",
+        "target_id": "1d40d107-90c1-413d-b453-946e0a340932",
+        "target_repo": "chalkline",
+        "target_ticket_key": "CH-2"
+      }
+    ],
+    "id": "2359acb3-2fbd-45c8-9112-7cd9391af0bf",
+    "kind": "feature",
+    "latest_handoff": null,
+    "plan": null,
+    "priority": 1,
+    "scope": {
+      "crate_name": "chalkline-cli",
+      "labels": [],
+      "module_path": null,
+      "repo": "chalkline",
+      "target_files": [],
+      "target_symbols": []
+    },
+    "slug": "add-multi-repo-workspace-audit-flag-to-chalkline-docs-check-2359ac",
+    "status": "verified",
+    "ticket_key": "CH-3",
+    "title": "Add multi-repo --workspace audit flag to chalkline docs check",
+    "updated_at_epoch_ms": 1794037975792,
+    "verification_receipt": {
+      "base_commit_sha": "5803f04420e22e16b2075202e4a44c2627b946b8",
+      "chain_key": null,
+      "command": "n/a",
+      "commit_shas": [
+        "5803f04420e22e16b2075202e4a44c2627b946b8"
+      ],
+      "diagnostic_count": null,
+      "exit_code": 0,
+      "git_branch": "feat/chalkline-docs-evolution",
+      "head_commit_sha": "5803f04420e22e16b2075202e4a44c2627b946b8",
+      "repo": null,
+      "summary": "Added --workspace multi-repo discovery and audit reporting to chalkline docs check with tests passing",
+      "verified_at_epoch_ms": 1793151193463,
+      "verifier": "manual"
+    }
+  }
+}

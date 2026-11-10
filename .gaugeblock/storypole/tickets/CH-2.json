@@ -1,0 +1,256 @@
+{
+  "events": [
+    {
+      "event": "task_created",
+      "task": {
+        "acceptance_criteria": [],
+        "active_claim": null,
+        "created_at_epoch_ms": 1793149798756,
+        "decisions": [],
+        "description": "Evolve chalkline docs subsystem with --workspace multi-repo recursion, semantic AST drift checking against public types/CLI flags, marker-bounded section regeneration (chalkline docs sync), and production scaffolding templates",
+        "edges": [],
+        "id": "1d40d107-90c1-413d-b453-946e0a340932",
+        "kind": "epic",
+        "latest_handoff": null,
+        "plan": null,
+        "priority": 1,
+        "scope": {
+          "crate_name": null,
+          "labels": [],
+          "module_path": null,
+          "repo": "chalkline",
+          "target_files": [],
+          "target_symbols": []
+        },
+        "slug": "chalkline-documentation-engine-evolution-multi-repo-audit-ast-drift-detection-dynamic-sync-1d40d1",
+        "status": "ready",
+        "ticket_key": "CH-2",
+        "title": "Chalkline Documentation Engine Evolution (Multi-Repo Audit, AST Drift Detection & Dynamic Sync)",
+        "updated_at_epoch_ms": 1793149798756,
+        "verification_receipt": null
+      }
+    },
+    {
+      "decision": {
+        "category": "general",
+        "chosen_option": null,
+        "decision_id": "bff638d3-4794-499b-af8b-988cbce2cf90",
+        "parent_decision_id": null,
+        "proposed_options": [
+          "Markdown AST Heading Ranges via pulldown-cmark",
+          "HTML Comment Markers"
+        ],
+        "question": "How should dynamic documentation sections be targeted and regenerated?",
+        "rationale": null,
+        "resolved_by": null,
+        "status": "pending",
+        "updated_at_epoch_ms": 1793150383222
+      },
+      "event": "decision_raised",
+      "task_id": "1d40d107-90c1-413d-b453-946e0a340932",
+      "timestamp_ms": 1793150383222
+    },
+    {
+      "event": "status_changed",
+      "from": "ready",
+      "reason": "Pending architectural decision required",
+      "task_id": "1d40d107-90c1-413d-b453-946e0a340932",
+      "timestamp_ms": 1793150383222,
+      "to": "blocked"
+    },
+    {
+      "appended_criterion": null,
+      "chosen_option": "Markdown AST Heading Ranges via pulldown-cmark",
+      "decision_id": "bff638d3-4794-499b-af8b-988cbce2cf90",
+      "event": "decision_resolved",
+      "rationale": "Keep documentation 100% pure idiomatic Markdown without non-standard HTML comment tags. Target Heading nodes (e.g. ## CLI Reference, ## Crate Topology) until next heading of equal or higher depth.",
+      "resolved_by": "user",
+      "spawned_followup": null,
+      "task_id": "1d40d107-90c1-413d-b453-946e0a340932",
+      "timestamp_ms": 1793150386154
+    },
+    {
+      "event": "status_changed",
+      "from": "blocked",
+      "reason": "All pending decisions and dependencies satisfied",
+      "task_id": "1d40d107-90c1-413d-b453-946e0a340932",
+      "timestamp_ms": 1793150386154,
+      "to": "ready"
+    },
+    {
+      "event": "plan_updated",
+      "plan": {
+        "design_markdown": "# CH-2: Chalkline Documentation Engine Evolution & Suite Verification Harness\n\n## Architectural Directives & Locked Decisions\n1. **Native Markdown AST Targeting:** Do NOT use HTML comments. Use `pulldown-cmark` heading range parsing to target standard Markdown sections (`## Crate Topology`, `## CLI Reference`, `## Boundary Contracts`, `## [Unreleased]`).\n2. **Boundary & Wire Type Scoping:** Scope `enforce_public_type_contracts` to boundary types (Serialize/Deserialize, thiserror enums, Clap commands, lib facade exports).\n3. **Dogfooding with Chalkline's 9 Documents:** Elevate all 9 documents in `chalkline` to gold standard (Mermaid diagrams, CLI/MCP reference, ADRs, AGENTS.md directives) as the first certified pass of `chalkline docs check`.\n\n## Phased Execution Steps\n1. `gb-103-workspace-audit` | Add `--workspace` / `--all` recursive discovery to `chalkline docs check` with consolidated matrix output | `cargo test -p chalkline-cli`\n2. `gb-104-ast-drift-policies` | Implement boundary type AST matching, Clap CLI flag inspection, AGENTS laws verification, and link integrity in `chalkline-core` | `cargo test -p chalkline-core`\n3. `gb-105-docs-sync-templates` | Implement `chalkline docs sync` via `pulldown-cmark` heading AST rewriting and upgrade `templates.rs` | `cargo test -p chalkline-core`\n4. `gb-119-chalkline-docs-elevation` | Elevate all 9 canonical docs in `chalkline` to gold standard matching `miter` | `chalkline docs check -d chalkline`\n5. `gb-99-tier3-gate` | Codify `chalkline docs check --workspace` in root `AGENTS.md` and release pre-flight | `chalkline docs check --workspace`\n",
+        "plan_file_path": ".gaugeblock/storypole/plans/CH-2.md",
+        "steps": [
+          {
+            "completed": false,
+            "step_id": "gb-103",
+            "target_files": [],
+            "title": "Add --workspace / --all flag to chalkline docs check",
+            "verification_gate": "cargo test -p chalkline-cli"
+          },
+          {
+            "completed": false,
+            "step_id": "gb-104",
+            "target_files": [],
+            "title": "Implement boundary type and AST drift policies in chalkline-core",
+            "verification_gate": "cargo test -p chalkline-core"
+          },
+          {
+            "completed": false,
+            "step_id": "gb-105",
+            "target_files": [],
+            "title": "Implement chalkline docs sync with heading AST targeting and rich templates",
+            "verification_gate": "cargo test -p chalkline-core"
+          },
+          {
+            "completed": false,
+            "step_id": "gb-119",
+            "target_files": [],
+            "title": "Elevate chalkline's own 9 canonical docs to gold standard",
+            "verification_gate": "chalkline docs check -d chalkline"
+          },
+          {
+            "completed": false,
+            "step_id": "gb-99",
+            "target_files": [],
+            "title": "Codify chalkline docs check --workspace in Tier 3 gate",
+            "verification_gate": "cargo test --workspace"
+          }
+        ],
+        "summary": "CH-2: Chalkline Documentation Engine Evolution & Suite Verification Harness",
+        "updated_at_epoch_ms": 1793150408131
+      },
+      "task_id": "1d40d107-90c1-413d-b453-946e0a340932",
+      "timestamp_ms": 1793150408131
+    },
+    {
+      "event": "task_verified",
+      "receipt": {
+        "base_commit_sha": "5803f04420e22e16b2075202e4a44c2627b946b8",
+        "chain_key": null,
+        "command": "n/a",
+        "commit_shas": [
+          "804b5b03dd4040b7c103cefdf67fbc1e716cf533"
+        ],
+        "diagnostic_count": null,
+        "exit_code": 0,
+        "git_branch": "feat/chalkline-docs-evolution",
+        "head_commit_sha": "804b5b03dd4040b7c103cefdf67fbc1e716cf533",
+        "repo": null,
+        "summary": "Completed Phase 1: Chalkline Doc Engine Evolution with --workspace multi-repo audit, AST drift policies, docs sync with heading AST targeting, chalkline's own 9-doc elevation, and Tier 3 gate codification",
+        "verified_at_epoch_ms": 1793151951644,
+        "verifier": "manual"
+      },
+      "task_id": "1d40d107-90c1-413d-b453-946e0a340932"
+    },
+    {
+      "event": "task_archived",
+      "status": "verified",
+      "task_id": "1d40d107-90c1-413d-b453-946e0a340932",
+      "timestamp_ms": 1794037975570
+    }
+  ],
+  "ticket": {
+    "acceptance_criteria": [],
+    "active_claim": null,
+    "archived_at_epoch_ms": 1794037975570,
+    "created_at_epoch_ms": 1793149798756,
+    "decisions": [
+      {
+        "category": "general",
+        "chosen_option": "Markdown AST Heading Ranges via pulldown-cmark",
+        "decision_id": "bff638d3-4794-499b-af8b-988cbce2cf90",
+        "parent_decision_id": null,
+        "proposed_options": [
+          "Markdown AST Heading Ranges via pulldown-cmark",
+          "HTML Comment Markers"
+        ],
+        "question": "How should dynamic documentation sections be targeted and regenerated?",
+        "rationale": "Keep documentation 100% pure idiomatic Markdown without non-standard HTML comment tags. Target Heading nodes (e.g. ## CLI Reference, ## Crate Topology) until next heading of equal or higher depth.",
+        "resolved_by": "user",
+        "status": "resolved",
+        "updated_at_epoch_ms": 1793150386154
+      }
+    ],
+    "description": "Evolve chalkline docs subsystem with --workspace multi-repo recursion, semantic AST drift checking against public types/CLI flags, marker-bounded section regeneration (chalkline docs sync), and production scaffolding templates",
+    "edges": [],
+    "id": "1d40d107-90c1-413d-b453-946e0a340932",
+    "kind": "epic",
+    "latest_handoff": null,
+    "plan": {
+      "design_markdown": "# CH-2: Chalkline Documentation Engine Evolution & Suite Verification Harness\n\n## Architectural Directives & Locked Decisions\n1. **Native Markdown AST Targeting:** Do NOT use HTML comments. Use `pulldown-cmark` heading range parsing to target standard Markdown sections (`## Crate Topology`, `## CLI Reference`, `## Boundary Contracts`, `## [Unreleased]`).\n2. **Boundary & Wire Type Scoping:** Scope `enforce_public_type_contracts` to boundary types (Serialize/Deserialize, thiserror enums, Clap commands, lib facade exports).\n3. **Dogfooding with Chalkline's 9 Documents:** Elevate all 9 documents in `chalkline` to gold standard (Mermaid diagrams, CLI/MCP reference, ADRs, AGENTS.md directives) as the first certified pass of `chalkline docs check`.\n\n## Phased Execution Steps\n1. `gb-103-workspace-audit` | Add `--workspace` / `--all` recursive discovery to `chalkline docs check` with consolidated matrix output | `cargo test -p chalkline-cli`\n2. `gb-104-ast-drift-policies` | Implement boundary type AST matching, Clap CLI flag inspection, AGENTS laws verification, and link integrity in `chalkline-core` | `cargo test -p chalkline-core`\n3. `gb-105-docs-sync-templates` | Implement `chalkline docs sync` via `pulldown-cmark` heading AST rewriting and upgrade `templates.rs` | `cargo test -p chalkline-core`\n4. `gb-119-chalkline-docs-elevation` | Elevate all 9 canonical docs in `chalkline` to gold standard matching `miter` | `chalkline docs check -d chalkline`\n5. `gb-99-tier3-gate` | Codify `chalkline docs check --workspace` in root `AGENTS.md` and release pre-flight | `chalkline docs check --workspace`\n",
+      "plan_file_path": ".gaugeblock/storypole/plans/CH-2.md",
+      "steps": [
+        {
+          "completed": false,
+          "step_id": "gb-103",
+          "target_files": [],
+          "title": "Add --workspace / --all flag to chalkline docs check",
+          "verification_gate": "cargo test -p chalkline-cli"
+        },
+        {
+          "completed": false,
+          "step_id": "gb-104",
+          "target_files": [],
+          "title": "Implement boundary type and AST drift policies in chalkline-core",
+          "verification_gate": "cargo test -p chalkline-core"
+        },
+        {
+          "completed": false,
+          "step_id": "gb-105",
+          "target_files": [],
+          "title": "Implement chalkline docs sync with heading AST targeting and rich templates",
+          "verification_gate": "cargo test -p chalkline-core"
+        },
+        {
+          "completed": false,
+          "step_id": "gb-119",
+          "target_files": [],
+          "title": "Elevate chalkline's own 9 canonical docs to gold standard",
+          "verification_gate": "chalkline docs check -d chalkline"
+        },
+        {
+          "completed": false,
+          "step_id": "gb-99",
+          "target_files": [],
+          "title": "Codify chalkline docs check --workspace in Tier 3 gate",
+          "verification_gate": "cargo test --workspace"
+        }
+      ],
+      "summary": "CH-2: Chalkline Documentation Engine Evolution & Suite Verification Harness",
+      "updated_at_epoch_ms": 1793150408131
+    },
+    "priority": 1,
+    "scope": {
+      "crate_name": null,
+      "labels": [],
+      "module_path": null,
+      "repo": "chalkline",
+      "target_files": [],
+      "target_symbols": []
+    },
+    "slug": "chalkline-documentation-engine-evolution-multi-repo-audit-ast-drift-detection-dynamic-sync-1d40d1",
+    "status": "verified",
+    "ticket_key": "CH-2",
+    "title": "Chalkline Documentation Engine Evolution (Multi-Repo Audit, AST Drift Detection & Dynamic Sync)",
+    "updated_at_epoch_ms": 1794037975570,
+    "verification_receipt": {
+      "base_commit_sha": "5803f04420e22e16b2075202e4a44c2627b946b8",
+      "chain_key": null,
+      "command": "n/a",
+      "commit_shas": [
+        "804b5b03dd4040b7c103cefdf67fbc1e716cf533"
+      ],
+      "diagnostic_count": null,
+      "exit_code": 0,
+      "git_branch": "feat/chalkline-docs-evolution",
+      "head_commit_sha": "804b5b03dd4040b7c103cefdf67fbc1e716cf533",
+      "repo": null,
+      "summary": "Completed Phase 1: Chalkline Doc Engine Evolution with --workspace multi-repo audit, AST drift policies, docs sync with heading AST targeting, chalkline's own 9-doc elevation, and Tier 3 gate codification",
+      "verified_at_epoch_ms": 1793151951644,
+      "verifier": "manual"
+    }
+  }
+}

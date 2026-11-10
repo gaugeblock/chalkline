@@ -1,0 +1,141 @@
+{
+  "events": [
+    {
+      "captured_by_agent": "user",
+      "discovered_from_task_id": null,
+      "event": "deferred_item_captured",
+      "task": {
+        "acceptance_criteria": [],
+        "active_claim": null,
+        "created_at_epoch_ms": 1794110645576,
+        "decisions": [],
+        "description": "",
+        "edges": [],
+        "id": "959f61c9-398d-420c-82a4-c73f30af77ae",
+        "kind": "bug",
+        "latest_handoff": null,
+        "plan": null,
+        "priority": 3,
+        "scope": {
+          "crate_name": "chalkline-cli",
+          "labels": [],
+          "module_path": null,
+          "repo": "chalkline",
+          "target_files": [],
+          "target_symbols": [
+            "chalkline_cli::docs"
+          ]
+        },
+        "slug": "docs-check-d-takes-a-directory-and-a-member-name-interchangeably-so-the-same-flag-meant-two-things-959f61",
+        "status": "triage",
+        "ticket_key": "CH-11",
+        "title": "docs check -d takes a directory and a member name interchangeably, so the same flag meant two things",
+        "updated_at_epoch_ms": 1794110645576,
+        "verification_receipt": null
+      }
+    },
+    {
+      "acceptance_criteria": null,
+      "description": "OBSERVED 2026-11-07: `chalkline docs check -d common`, run with the working directory set to `common` (which is how storypole verify runs a chain), resolved the name under the current directory and failed with \"Failed to inspect workspace: invalid workspace layout: Missing Cargo.toml at common\". The eleven member chains were all written that way and none had ever been executed, because the default-chain fallback bug (a626638) meant member tickets always ran the harness chain instead. Chains now pass -d . ; the flag itself still accepts a directory and a member name interchangeably, so the same mistake is available again.",
+      "event": "task_updated",
+      "priority": null,
+      "scope": null,
+      "task_id": "959f61c9-398d-420c-82a4-c73f30af77ae",
+      "timestamp_ms": 1794119329055,
+      "title": null
+    },
+    {
+      "claim": {
+        "agent_id": "cline-agent",
+        "base_commit_sha": "dad5bee90fc9fb6c46cec3981d672a79f500fbd3",
+        "claimed_at_epoch_ms": 1794123449070,
+        "git_branch": "main",
+        "lease_expires_at_epoch_ms": 1794127049070
+      },
+      "event": "task_claimed",
+      "task_id": "959f61c9-398d-420c-82a4-c73f30af77ae"
+    },
+    {
+      "event": "status_changed",
+      "from": "triage",
+      "reason": "Claimed by cline-agent",
+      "task_id": "959f61c9-398d-420c-82a4-c73f30af77ae",
+      "timestamp_ms": 1794123449070,
+      "to": "in_progress"
+    },
+    {
+      "event": "task_verified",
+      "receipt": {
+        "base_commit_sha": null,
+        "chain_key": "chalkline",
+        "command": "cargo fmt --all -- --check && cargo clippy --workspace --all-targets -- -D warnings && cargo nextest run --workspace && miter audit --path . --threshold 250 --paths && chalkline docs check -d .",
+        "commit_shas": [
+          "dad5bee90fc9fb6c46cec3981d672a79f500fbd3"
+        ],
+        "diagnostic_count": null,
+        "exit_code": 0,
+        "git_branch": "main",
+        "head_commit_sha": "dad5bee90fc9fb6c46cec3981d672a79f500fbd3",
+        "repo": "chalkline",
+        "summary": "[window: no base commit could be named, so this receipt covers HEAD only]\nAUDIT PASSED: No files exceed 250 lines in .\nAUDIT PASSED: every crate naming .gaugeblock depends on gaugeblock-workspace\nAUDIT PASSED: every crate resolving the suite has a multi-repository test\n\n=== Gaugeblock 9-Document Architecture Audit ===\nRepository: /Users/wolff/dev2026/neurosymbolic-suite/chalkline/.\n\n[OK]      Readme           (README.md)\n[OK]      Contributing     (CONTRIBUTING.md)\n[OK]      Product          (docs/PRODUCT.md)\n[OK]      Architecture     (docs/ARCHITECTURE.md)\n[OK]      Spec             (docs/SPEC.md)\n[OK]      Design           (docs/DESIGN.md)\n[OK]      Roadmap          (docs/ROADMAP.md)\n[OK]      Changelog        (CHANGELOG.md)\n[OK]      Agents           (AGENTS.md)\n\nSummary: 9 present, 0 missing, 0 drifted\n\n",
+        "verified_at_epoch_ms": 1794123449888,
+        "verifier": "storypole-verify"
+      },
+      "task_id": "959f61c9-398d-420c-82a4-c73f30af77ae"
+    },
+    {
+      "acceptance_criteria": null,
+      "description": "OBSERVED 2026-11-07: `chalkline docs check -d common`, run with the working directory set to `common` (which is how storypole verify runs a chain), resolved the name under the current directory and failed with \"Failed to inspect workspace: invalid workspace layout: Missing Cargo.toml at common\". The eleven member chains were all written that way and none had ever been executed, because the default-chain fallback bug (a626638) meant member tickets always ran the harness chain instead. Chains now pass -d . ; the flag itself still accepts a directory and a member name interchangeably, so the same mistake is available again.\n\nLIVE 2026-11-07, from inside common/ with the rebuilt binary:\n\n  chalkline docs check -d common   -> 9 present, 0 missing, 0 drifted   (was: Missing Cargo.toml at common)\n  chalkline docs check -d .        -> 9 present, 0 missing, 0 drifted   (the path reading still works)\n  chalkline docs check -d nope     -> \"--dir 'nope' is neither a directory (.../common/nope does not exist) nor a member of the suite containing .../common\"\n\nCommitted as dad5bee, verified with the chalkline chain.",
+      "event": "task_updated",
+      "priority": null,
+      "scope": null,
+      "task_id": "959f61c9-398d-420c-82a4-c73f30af77ae",
+      "timestamp_ms": 1794123480891,
+      "title": null
+    }
+  ],
+  "ticket": {
+    "acceptance_criteria": [],
+    "active_claim": null,
+    "created_at_epoch_ms": 1794110645576,
+    "decisions": [],
+    "description": "OBSERVED 2026-11-07: `chalkline docs check -d common`, run with the working directory set to `common` (which is how storypole verify runs a chain), resolved the name under the current directory and failed with \"Failed to inspect workspace: invalid workspace layout: Missing Cargo.toml at common\". The eleven member chains were all written that way and none had ever been executed, because the default-chain fallback bug (a626638) meant member tickets always ran the harness chain instead. Chains now pass -d . ; the flag itself still accepts a directory and a member name interchangeably, so the same mistake is available again.\n\nLIVE 2026-11-07, from inside common/ with the rebuilt binary:\n\n  chalkline docs check -d common   -> 9 present, 0 missing, 0 drifted   (was: Missing Cargo.toml at common)\n  chalkline docs check -d .        -> 9 present, 0 missing, 0 drifted   (the path reading still works)\n  chalkline docs check -d nope     -> \"--dir 'nope' is neither a directory (.../common/nope does not exist) nor a member of the suite containing .../common\"\n\nCommitted as dad5bee, verified with the chalkline chain.",
+    "edges": [],
+    "id": "959f61c9-398d-420c-82a4-c73f30af77ae",
+    "kind": "bug",
+    "latest_handoff": null,
+    "plan": null,
+    "priority": 3,
+    "scope": {
+      "crate_name": "chalkline-cli",
+      "labels": [],
+      "module_path": null,
+      "repo": "chalkline",
+      "target_files": [],
+      "target_symbols": [
+        "chalkline_cli::docs"
+      ]
+    },
+    "slug": "docs-check-d-takes-a-directory-and-a-member-name-interchangeably-so-the-same-flag-meant-two-things-959f61",
+    "status": "verified",
+    "ticket_key": "CH-11",
+    "title": "docs check -d takes a directory and a member name interchangeably, so the same flag meant two things",
+    "updated_at_epoch_ms": 1794123480891,
+    "verification_receipt": {
+      "base_commit_sha": null,
+      "chain_key": "chalkline",
+      "command": "cargo fmt --all -- --check && cargo clippy --workspace --all-targets -- -D warnings && cargo nextest run --workspace && miter audit --path . --threshold 250 --paths && chalkline docs check -d .",
+      "commit_shas": [
+        "dad5bee90fc9fb6c46cec3981d672a79f500fbd3"
+      ],
+      "diagnostic_count": null,
+      "exit_code": 0,
+      "git_branch": "main",
+      "head_commit_sha": "dad5bee90fc9fb6c46cec3981d672a79f500fbd3",
+      "repo": "chalkline",
+      "summary": "[window: no base commit could be named, so this receipt covers HEAD only]\nAUDIT PASSED: No files exceed 250 lines in .\nAUDIT PASSED: every crate naming .gaugeblock depends on gaugeblock-workspace\nAUDIT PASSED: every crate resolving the suite has a multi-repository test\n\n=== Gaugeblock 9-Document Architecture Audit ===\nRepository: /Users/wolff/dev2026/neurosymbolic-suite/chalkline/.\n\n[OK]      Readme           (README.md)\n[OK]      Contributing     (CONTRIBUTING.md)\n[OK]      Product          (docs/PRODUCT.md)\n[OK]      Architecture     (docs/ARCHITECTURE.md)\n[OK]      Spec             (docs/SPEC.md)\n[OK]      Design           (docs/DESIGN.md)\n[OK]      Roadmap          (docs/ROADMAP.md)\n[OK]      Changelog        (CHANGELOG.md)\n[OK]      Agents           (AGENTS.md)\n\nSummary: 9 present, 0 missing, 0 drifted\n\n",
+      "verified_at_epoch_ms": 1794123449888,
+      "verifier": "storypole-verify"
+    }
+  }
+}

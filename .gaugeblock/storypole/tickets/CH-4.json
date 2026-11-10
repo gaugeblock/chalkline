@@ -1,0 +1,203 @@
+{
+  "events": [
+    {
+      "event": "task_created",
+      "task": {
+        "acceptance_criteria": [],
+        "active_claim": null,
+        "created_at_epoch_ms": 1793149804539,
+        "decisions": [],
+        "description": "Flesh out DocsPoliciesConfig enforcement: enforce_public_type_contracts (SPEC.md vs miter public types), enforce_readme_cli_flags (README.md vs Clap commands/flags), enforce_agents_directives (AGENTS.md vs engineering laws), and link integrity",
+        "edges": [],
+        "id": "85e2447e-1288-4d11-b043-7db638f8bcb8",
+        "kind": "feature",
+        "latest_handoff": null,
+        "plan": null,
+        "priority": 1,
+        "scope": {
+          "crate_name": "chalkline-core",
+          "labels": [],
+          "module_path": null,
+          "repo": "chalkline",
+          "target_files": [],
+          "target_symbols": []
+        },
+        "slug": "implement-semantic-ast-drift-policies-in-chalkline-core-85e244",
+        "status": "ready",
+        "ticket_key": "CH-4",
+        "title": "Implement semantic AST drift policies in chalkline-core",
+        "updated_at_epoch_ms": 1793149804539,
+        "verification_receipt": null
+      }
+    },
+    {
+      "edge": {
+        "kind": "parent_epic",
+        "target_id": "1d40d107-90c1-413d-b453-946e0a340932",
+        "target_repo": "chalkline",
+        "target_ticket_key": "CH-2"
+      },
+      "event": "edge_added",
+      "task_id": "85e2447e-1288-4d11-b043-7db638f8bcb8",
+      "timestamp_ms": 1793149813831
+    },
+    {
+      "decision": {
+        "category": "general",
+        "chosen_option": null,
+        "decision_id": "446d2438-6614-4b82-90fc-3daaf9be4b02",
+        "parent_decision_id": null,
+        "proposed_options": [
+          "Contract and boundary types (Serialize/Deserialize, thiserror, Clap CLI, lib facade)",
+          "All pub structs/enums"
+        ],
+        "question": "What types should enforce_public_type_contracts audit against SPEC.md?",
+        "rationale": null,
+        "resolved_by": null,
+        "status": "pending",
+        "updated_at_epoch_ms": 1793150393649
+      },
+      "event": "decision_raised",
+      "task_id": "85e2447e-1288-4d11-b043-7db638f8bcb8",
+      "timestamp_ms": 1793150393649
+    },
+    {
+      "event": "status_changed",
+      "from": "ready",
+      "reason": "Pending architectural decision required",
+      "task_id": "85e2447e-1288-4d11-b043-7db638f8bcb8",
+      "timestamp_ms": 1793150393649,
+      "to": "blocked"
+    },
+    {
+      "appended_criterion": null,
+      "chosen_option": "Contract and boundary types (Serialize/Deserialize, thiserror, Clap CLI, lib facade)",
+      "decision_id": "446d2438-6614-4b82-90fc-3daaf9be4b02",
+      "event": "decision_resolved",
+      "rationale": "Avoid low-value internal struct dumps. Enforce formal behavioral specification for wire models, error enums, CLI entrypoints, and public facade types.",
+      "resolved_by": "user",
+      "spawned_followup": null,
+      "task_id": "85e2447e-1288-4d11-b043-7db638f8bcb8",
+      "timestamp_ms": 1793150398662
+    },
+    {
+      "event": "status_changed",
+      "from": "blocked",
+      "reason": "All pending decisions and dependencies satisfied",
+      "task_id": "85e2447e-1288-4d11-b043-7db638f8bcb8",
+      "timestamp_ms": 1793150398662,
+      "to": "ready"
+    },
+    {
+      "claim": {
+        "agent_id": "agent-antigravity",
+        "base_commit_sha": "5803f04420e22e16b2075202e4a44c2627b946b8",
+        "claimed_at_epoch_ms": 1793151197410,
+        "git_branch": "feat/chalkline-docs-evolution",
+        "lease_expires_at_epoch_ms": 1793154797410
+      },
+      "event": "task_claimed",
+      "task_id": "85e2447e-1288-4d11-b043-7db638f8bcb8"
+    },
+    {
+      "event": "status_changed",
+      "from": "ready",
+      "reason": "Claimed by agent-antigravity",
+      "task_id": "85e2447e-1288-4d11-b043-7db638f8bcb8",
+      "timestamp_ms": 1793151197410,
+      "to": "in_progress"
+    },
+    {
+      "event": "task_verified",
+      "receipt": {
+        "base_commit_sha": "5803f04420e22e16b2075202e4a44c2627b946b8",
+        "chain_key": null,
+        "command": "n/a",
+        "commit_shas": [
+          "5803f04420e22e16b2075202e4a44c2627b946b8"
+        ],
+        "diagnostic_count": null,
+        "exit_code": 0,
+        "git_branch": "feat/chalkline-docs-evolution",
+        "head_commit_sha": "5803f04420e22e16b2075202e4a44c2627b946b8",
+        "repo": null,
+        "summary": "Implemented boundary type scoping, CLI flag verification, AGENTS laws checks, and link integrity in chalkline-core",
+        "verified_at_epoch_ms": 1793151301665,
+        "verifier": "manual"
+      },
+      "task_id": "85e2447e-1288-4d11-b043-7db638f8bcb8"
+    },
+    {
+      "event": "task_archived",
+      "status": "verified",
+      "task_id": "85e2447e-1288-4d11-b043-7db638f8bcb8",
+      "timestamp_ms": 1794037976023
+    }
+  ],
+  "ticket": {
+    "acceptance_criteria": [],
+    "active_claim": null,
+    "archived_at_epoch_ms": 1794037976023,
+    "created_at_epoch_ms": 1793149804539,
+    "decisions": [
+      {
+        "category": "general",
+        "chosen_option": "Contract and boundary types (Serialize/Deserialize, thiserror, Clap CLI, lib facade)",
+        "decision_id": "446d2438-6614-4b82-90fc-3daaf9be4b02",
+        "parent_decision_id": null,
+        "proposed_options": [
+          "Contract and boundary types (Serialize/Deserialize, thiserror, Clap CLI, lib facade)",
+          "All pub structs/enums"
+        ],
+        "question": "What types should enforce_public_type_contracts audit against SPEC.md?",
+        "rationale": "Avoid low-value internal struct dumps. Enforce formal behavioral specification for wire models, error enums, CLI entrypoints, and public facade types.",
+        "resolved_by": "user",
+        "status": "resolved",
+        "updated_at_epoch_ms": 1793150398662
+      }
+    ],
+    "description": "Flesh out DocsPoliciesConfig enforcement: enforce_public_type_contracts (SPEC.md vs miter public types), enforce_readme_cli_flags (README.md vs Clap commands/flags), enforce_agents_directives (AGENTS.md vs engineering laws), and link integrity",
+    "edges": [
+      {
+        "kind": "parent_epic",
+        "target_id": "1d40d107-90c1-413d-b453-946e0a340932",
+        "target_repo": "chalkline",
+        "target_ticket_key": "CH-2"
+      }
+    ],
+    "id": "85e2447e-1288-4d11-b043-7db638f8bcb8",
+    "kind": "feature",
+    "latest_handoff": null,
+    "plan": null,
+    "priority": 1,
+    "scope": {
+      "crate_name": "chalkline-core",
+      "labels": [],
+      "module_path": null,
+      "repo": "chalkline",
+      "target_files": [],
+      "target_symbols": []
+    },
+    "slug": "implement-semantic-ast-drift-policies-in-chalkline-core-85e244",
+    "status": "verified",
+    "ticket_key": "CH-4",
+    "title": "Implement semantic AST drift policies in chalkline-core",
+    "updated_at_epoch_ms": 1794037976023,
+    "verification_receipt": {
+      "base_commit_sha": "5803f04420e22e16b2075202e4a44c2627b946b8",
+      "chain_key": null,
+      "command": "n/a",
+      "commit_shas": [
+        "5803f04420e22e16b2075202e4a44c2627b946b8"
+      ],
+      "diagnostic_count": null,
+      "exit_code": 0,
+      "git_branch": "feat/chalkline-docs-evolution",
+      "head_commit_sha": "5803f04420e22e16b2075202e4a44c2627b946b8",
+      "repo": null,
+      "summary": "Implemented boundary type scoping, CLI flag verification, AGENTS laws checks, and link integrity in chalkline-core",
+      "verified_at_epoch_ms": 1793151301665,
+      "verifier": "manual"
+    }
+  }
+}

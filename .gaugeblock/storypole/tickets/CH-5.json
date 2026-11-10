@@ -1,0 +1,140 @@
+{
+  "events": [
+    {
+      "event": "task_created",
+      "task": {
+        "acceptance_criteria": [],
+        "active_claim": null,
+        "created_at_epoch_ms": 1793149807873,
+        "decisions": [],
+        "description": "Introduce marker-based dynamic sections (e.g. <!-- CHALKLINE:CRATES:START -->) for ARCHITECTURE, README, SPEC, and CHANGELOG, plus comprehensive production-grade scaffolding templates",
+        "edges": [],
+        "id": "b5e030c5-963e-4c8d-a8c9-56c3fab3e739",
+        "kind": "feature",
+        "latest_handoff": null,
+        "plan": null,
+        "priority": 1,
+        "scope": {
+          "crate_name": "chalkline-core",
+          "labels": [],
+          "module_path": null,
+          "repo": "chalkline",
+          "target_files": [],
+          "target_symbols": []
+        },
+        "slug": "add-chalkline-docs-sync-with-marker-bounded-section-regeneration-and-production-scaffolding-templates-b5e030",
+        "status": "ready",
+        "ticket_key": "CH-5",
+        "title": "Add chalkline docs sync with marker-bounded section regeneration and production scaffolding templates",
+        "updated_at_epoch_ms": 1793149807873,
+        "verification_receipt": null
+      }
+    },
+    {
+      "edge": {
+        "kind": "parent_epic",
+        "target_id": "1d40d107-90c1-413d-b453-946e0a340932",
+        "target_repo": "chalkline",
+        "target_ticket_key": "CH-2"
+      },
+      "event": "edge_added",
+      "task_id": "b5e030c5-963e-4c8d-a8c9-56c3fab3e739",
+      "timestamp_ms": 1793149813864
+    },
+    {
+      "claim": {
+        "agent_id": "agent-antigravity",
+        "base_commit_sha": "5803f04420e22e16b2075202e4a44c2627b946b8",
+        "claimed_at_epoch_ms": 1793151305573,
+        "git_branch": "feat/chalkline-docs-evolution",
+        "lease_expires_at_epoch_ms": 1793154905573
+      },
+      "event": "task_claimed",
+      "task_id": "b5e030c5-963e-4c8d-a8c9-56c3fab3e739"
+    },
+    {
+      "event": "status_changed",
+      "from": "ready",
+      "reason": "Claimed by agent-antigravity",
+      "task_id": "b5e030c5-963e-4c8d-a8c9-56c3fab3e739",
+      "timestamp_ms": 1793151305573,
+      "to": "in_progress"
+    },
+    {
+      "event": "task_verified",
+      "receipt": {
+        "base_commit_sha": "5803f04420e22e16b2075202e4a44c2627b946b8",
+        "chain_key": null,
+        "command": "n/a",
+        "commit_shas": [
+          "5803f04420e22e16b2075202e4a44c2627b946b8"
+        ],
+        "diagnostic_count": null,
+        "exit_code": 0,
+        "git_branch": "feat/chalkline-docs-evolution",
+        "head_commit_sha": "5803f04420e22e16b2075202e4a44c2627b946b8",
+        "repo": null,
+        "summary": "Implemented native Markdown AST heading section targeting via pulldown-cmark in chalkline docs sync, and rich production scaffolding templates",
+        "verified_at_epoch_ms": 1793151446806,
+        "verifier": "manual"
+      },
+      "task_id": "b5e030c5-963e-4c8d-a8c9-56c3fab3e739"
+    },
+    {
+      "event": "task_archived",
+      "status": "verified",
+      "task_id": "b5e030c5-963e-4c8d-a8c9-56c3fab3e739",
+      "timestamp_ms": 1794037976198
+    }
+  ],
+  "ticket": {
+    "acceptance_criteria": [],
+    "active_claim": null,
+    "archived_at_epoch_ms": 1794037976198,
+    "created_at_epoch_ms": 1793149807873,
+    "decisions": [],
+    "description": "Introduce marker-based dynamic sections (e.g. <!-- CHALKLINE:CRATES:START -->) for ARCHITECTURE, README, SPEC, and CHANGELOG, plus comprehensive production-grade scaffolding templates",
+    "edges": [
+      {
+        "kind": "parent_epic",
+        "target_id": "1d40d107-90c1-413d-b453-946e0a340932",
+        "target_repo": "chalkline",
+        "target_ticket_key": "CH-2"
+      }
+    ],
+    "id": "b5e030c5-963e-4c8d-a8c9-56c3fab3e739",
+    "kind": "feature",
+    "latest_handoff": null,
+    "plan": null,
+    "priority": 1,
+    "scope": {
+      "crate_name": "chalkline-core",
+      "labels": [],
+      "module_path": null,
+      "repo": "chalkline",
+      "target_files": [],
+      "target_symbols": []
+    },
+    "slug": "add-chalkline-docs-sync-with-marker-bounded-section-regeneration-and-production-scaffolding-templates-b5e030",
+    "status": "verified",
+    "ticket_key": "CH-5",
+    "title": "Add chalkline docs sync with marker-bounded section regeneration and production scaffolding templates",
+    "updated_at_epoch_ms": 1794037976198,
+    "verification_receipt": {
+      "base_commit_sha": "5803f04420e22e16b2075202e4a44c2627b946b8",
+      "chain_key": null,
+      "command": "n/a",
+      "commit_shas": [
+        "5803f04420e22e16b2075202e4a44c2627b946b8"
+      ],
+      "diagnostic_count": null,
+      "exit_code": 0,
+      "git_branch": "feat/chalkline-docs-evolution",
+      "head_commit_sha": "5803f04420e22e16b2075202e4a44c2627b946b8",
+      "repo": null,
+      "summary": "Implemented native Markdown AST heading section targeting via pulldown-cmark in chalkline docs sync, and rich production scaffolding templates",
+      "verified_at_epoch_ms": 1793151446806,
+      "verifier": "manual"
+    }
+  }
+}

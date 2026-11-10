@@ -1,0 +1,67 @@
+{
+  "events": [
+    {
+      "captured_by_agent": "cline",
+      "discovered_from_task_id": null,
+      "event": "deferred_item_captured",
+      "task": {
+        "acceptance_criteria": [],
+        "active_claim": null,
+        "created_at_epoch_ms": 1793948519102,
+        "decisions": [],
+        "description": "Observed 2026-11-06 while chasing CH-9: the audit reported 'README missing documentation for CLI command scaffold' for the common repo, which has no binary. The finding was false, but the report gave no provenance, so finding the cause meant grepping the whole tree for 'scaffold' to discover it came from a clap test fixture at gaugeblock-inventory/src/tests.rs:95. A '--explain' (or a file:line column in the existing output) would turn that hunt into one line, and it pays off for true positives too: 'missing spec for boundary type X' should carry the declaration site, not just the name.",
+        "edges": [],
+        "id": "35cb3e18-4f6b-41d2-b91b-0c0ef794b647",
+        "kind": "feature",
+        "latest_handoff": null,
+        "plan": null,
+        "priority": 3,
+        "scope": {
+          "crate_name": "chalkline-core",
+          "labels": [
+            "chalkline,docs,agent-ergonomics"
+          ],
+          "module_path": null,
+          "repo": "chalkline",
+          "target_files": [],
+          "target_symbols": []
+        },
+        "slug": "chalkline-docs-check-should-say-which-file-and-line-produced-a-drift-claim-35cb3e",
+        "status": "deferred",
+        "ticket_key": "CH-10",
+        "title": "chalkline docs check should say which file and line produced a drift claim",
+        "updated_at_epoch_ms": 1793948519102,
+        "verification_receipt": null
+      }
+    }
+  ],
+  "ticket": {
+    "acceptance_criteria": [],
+    "active_claim": null,
+    "created_at_epoch_ms": 1793948519102,
+    "decisions": [],
+    "description": "Observed 2026-11-06 while chasing CH-9: the audit reported 'README missing documentation for CLI command scaffold' for the common repo, which has no binary. The finding was false, but the report gave no provenance, so finding the cause meant grepping the whole tree for 'scaffold' to discover it came from a clap test fixture at gaugeblock-inventory/src/tests.rs:95. A '--explain' (or a file:line column in the existing output) would turn that hunt into one line, and it pays off for true positives too: 'missing spec for boundary type X' should carry the declaration site, not just the name.",
+    "edges": [],
+    "id": "35cb3e18-4f6b-41d2-b91b-0c0ef794b647",
+    "kind": "feature",
+    "latest_handoff": null,
+    "plan": null,
+    "priority": 3,
+    "scope": {
+      "crate_name": "chalkline-core",
+      "labels": [
+        "chalkline,docs,agent-ergonomics"
+      ],
+      "module_path": null,
+      "repo": "chalkline",
+      "target_files": [],
+      "target_symbols": []
+    },
+    "slug": "chalkline-docs-check-should-say-which-file-and-line-produced-a-drift-claim-35cb3e",
+    "status": "deferred",
+    "ticket_key": "CH-10",
+    "title": "chalkline docs check should say which file and line produced a drift claim",
+    "updated_at_epoch_ms": 1793948519102,
+    "verification_receipt": null
+  }
+}
