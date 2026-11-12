@@ -41,7 +41,8 @@
       "chain_key": "chalkline"
     },
     "created_at_epoch_ms": 1794110645576,
-    "updated_at_epoch_ms": 1794123480891
+    "updated_at_epoch_ms": 1794343400009,
+    "archived_at_epoch_ms": 1794343400009
   },
   "events": [
     {
